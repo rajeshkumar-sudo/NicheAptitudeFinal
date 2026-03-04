@@ -108,6 +108,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
   const [isOnline, setIsOnline] = useState(navigator.onLine);
+  const [networkToast, setNetworkToast] = useState<{ show: boolean; message: string; type: 'online' | 'offline' } | null>(null);
   const [submissionId, setSubmissionId] = useState<string | null>(null);
   const [startTime] = useState(() => {
     const savedState = localStorage.getItem(`aptitude_test_${user.rollNumber}`);
@@ -210,7 +211,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
           const newCount = prev + 1;
           
           if (newCount >= 3) {
-            setTimeout(() => handleSubmit(), 3000);
+            setTimeout(() => handleSubmit(true), 3000);
           }
           
           return newCount;
@@ -262,7 +263,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
         });
         
         if (newCount >= 3) {
-          setTimeout(() => handleSubmit(), 3000);
+          setTimeout(() => handleSubmit(true), 3000);
         }
         
         return newCount;
@@ -277,6 +278,48 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
       window.removeEventListener('popstate', handlePopState);
     };
   }, [hasStarted, isSubmitted]);
+
+  // ============================================
+  // DETECT PAGE REFRESH ON MOUNT
+  // ============================================
+  useEffect(() => {
+    const navigationEntries = performance.getEntriesByType('navigation');
+    const isReload = navigationEntries.length > 0 && (navigationEntries[0] as PerformanceNavigationTiming).type === 'reload';
+    
+    if (isReload) {
+      const savedState = localStorage.getItem(`aptitude_test_${user.rollNumber}`);
+      if (savedState) {
+        const parsed = JSON.parse(savedState);
+        // Only count as violation if the test was already in progress
+        if (parsed.hasStarted && !parsed.isSubmitted) {
+          const newCount = (parsed.violations || 0) + 1;
+          setViolations(newCount);
+          
+          if (newCount >= 3) {
+            setSecurityAlert({ 
+              show: true, 
+              message: `⚠️ MAXIMUM VIOLATIONS REACHED\n\nPage refresh detected. This is violation 3/3. Your test is being submitted automatically.`,
+              count: 3
+            });
+            // Give them a moment to see the message before submitting
+            setTimeout(() => handleSubmit(true), 3000);
+          } else {
+            setSecurityAlert({ 
+              show: true, 
+              message: `⚠️ SECURITY VIOLATION ${newCount}/3\n\nPage refresh detected. Please do not refresh the page during the test.`,
+              count: newCount
+            });
+          }
+          
+          // Update the saved state immediately
+          localStorage.setItem(`aptitude_test_${user.rollNumber}`, JSON.stringify({
+            ...parsed,
+            violations: newCount
+          }));
+        }
+      }
+    }
+  }, []);
 
   // ============================================
   // SAVE TEST STATE TO LOCALSTORAGE
@@ -328,13 +371,27 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
   useEffect(() => {
     const handleOnline = () => {
       setIsOnline(true);
+      setNetworkToast({
+        show: true,
+        message: "Network restored. You can continue your test.",
+        type: 'online'
+      });
       console.log('📶 Device is online');
       syncFailedSubmissions();
+      
+      setTimeout(() => setNetworkToast(null), 4000);
     };
     
     const handleOffline = () => {
       setIsOnline(false);
+      setNetworkToast({
+        show: true,
+        message: "Network lost. Progress is being saved locally.",
+        type: 'offline'
+      });
       console.log('📶 Device is offline');
+      
+      setTimeout(() => setNetworkToast(null), 4000);
     };
 
     window.addEventListener('online', handleOnline);
@@ -405,9 +462,25 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
   const submitToGoogleSheets = async (payload: any): Promise<boolean> => {
     console.log('📤 Submitting to Google Sheets:', payload);
 
+    const fetchWithTimeout = async (url: string, options: any, timeout = 8000) => {
+      const controller = new AbortController();
+      const id = setTimeout(() => controller.abort(), timeout);
+      try {
+        const response = await fetch(url, {
+          ...options,
+          signal: controller.signal
+        });
+        clearTimeout(id);
+        return response;
+      } catch (error) {
+        clearTimeout(id);
+        throw error;
+      }
+    };
+
     // METHOD 1: Try fetch with JSON
     try {
-      const response = await fetch(SCRIPT_URL, {
+      const response = await fetchWithTimeout(SCRIPT_URL, {
         method: 'POST',
         mode: 'cors',
         headers: {
@@ -418,28 +491,21 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
 
       if (response.ok) {
         const result = await response.json();
-        console.log('✅ Google Sheets response:', result);
-        
         if (result.status === 'success') {
           setSubmissionId(result.submissionId || null);
-          
-          if (result.statistics) {
-            console.log('📊 Server received statistics:', result.statistics);
-          }
-          
           return true;
         }
       }
     } catch (jsonError) {
-      console.log('JSON fetch failed, trying form data...', jsonError);
+      console.log('JSON fetch failed or timed out:', jsonError);
     }
 
-    // METHOD 2: Try with FormData
+    // METHOD 2: Try with FormData (often works better with Apps Script)
     try {
       const formData = new FormData();
       formData.append('data', JSON.stringify(payload));
 
-      const response = await fetch(SCRIPT_URL, {
+      const response = await fetchWithTimeout(SCRIPT_URL, {
         method: 'POST',
         mode: 'cors',
         body: formData
@@ -447,27 +513,25 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
 
       if (response.ok) {
         const result = await response.json();
-        console.log('✅ Google Sheets response (FormData):', result);
-        
         if (result.status === 'success') {
           setSubmissionId(result.submissionId || null);
           return true;
         }
       }
     } catch (formError) {
-      console.log('FormData failed, trying no-cors...', formError);
+      console.log('FormData failed or timed out:', formError);
     }
 
-    // METHOD 3: Try with no-cors mode
+    // METHOD 3: Try with no-cors mode (last resort, won't get response but request might hit)
     try {
-      await fetch(SCRIPT_URL, {
+      await fetchWithTimeout(SCRIPT_URL, {
         method: 'POST',
         mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(payload)
-      });
+      }, 5000);
       
       console.log('✅ Request sent with no-cors mode');
       return true;
@@ -562,7 +626,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
   // ============================================
   // HANDLE FINAL SUBMISSION
   // ============================================
-  const handleSubmit = async () => {
+  const handleSubmit = async (isDisqualified = false) => {
     if (isSubmitted || isSubmitting || submissionStarted.current) {
       console.log('Submission already in progress');
       return;
@@ -572,9 +636,9 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
     setIsSubmitted(true);
     setIsSubmitting(true);
     setSubmitStatus('saving');
-    setSubmitMessage('Saving your results to Google Sheets...');
+    setSubmitMessage(isDisqualified ? 'Security Breach Detected. Finalizing submission...' : 'Saving your results...');
 
-    console.log('🎯 Starting final submission...');
+    console.log('🎯 Starting final submission...', isDisqualified ? '(Disqualified)' : '');
     
     if (timerRef.current) clearInterval(timerRef.current);
     if (questionTimerRef.current) clearInterval(questionTimerRef.current);
@@ -591,21 +655,6 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
     const timeTaken = (30 * 60) - timeLeft;
     const percentage = ((score / totalQuestions) * 100).toFixed(2);
     
-    console.log('📊 Detailed Test Results:', {
-      totalQuestions,
-      correctAnswers: counts.correctCount,
-      partialCorrect: counts.partialCount,
-      wrongAnswers: counts.wrongCount,
-      skippedQuestions: counts.skippedCount,
-      score,
-      percentage: percentage + '%',
-      timeTaken,
-      correctAnswerIds: counts.correctAnswerIds,
-      partialAnswerIds: counts.partialAnswerIds,
-      wrongAnswerIds: counts.wrongAnswerIds,
-      skippedQuestionIds: counts.skippedQuestionIds
-    });
-
     const payload = {
       name: user.name,
       email: user.email,
@@ -629,76 +678,64 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
       wrongAnswerIds: counts.wrongAnswerIds,
       skippedQuestionIds: counts.skippedQuestionIds,
       
+      violations: violations + (isDisqualified ? 1 : 0),
+      disqualified: isDisqualified,
       browserInfo: getBrowserInfo(),
       userAgent: navigator.userAgent
     };
 
-    setSubmitMessage('Connecting to Google Sheets...');
+    // Attempt cloud submission with a faster timeout strategy
     const cloudSuccess = await submitToGoogleSheets(payload);
     
     if (cloudSuccess) {
       setSubmitStatus('success');
-      setSubmitMessage(`✓ Results saved to Google Sheets!`);
-      console.log('✅ Cloud save successful');
-      
-      const results = JSON.parse(localStorage.getItem('aptitude_results') || '[]');
-      results.push({
-        ...user,
-        totalQuestions,
-        correctAnswers: counts.correctCount,
-        partialCorrect: counts.partialCount,
-        wrongAnswers: counts.wrongCount,
-        skippedQuestions: counts.skippedCount,
-        score,
-        percentage,
-        timeTaken,
-        set: selectedSetIndex + 1,
-        timestamp: new Date().toISOString(),
-        submissionId: submissionId,
-        synced: true
-      });
-      localStorage.setItem('aptitude_results', JSON.stringify(results));
-      
+      setSubmitMessage(`✓ Results saved successfully!`);
     } else {
       setSubmitStatus('error');
-      setSubmitMessage(
-        isOnline 
-          ? '⚠️ Google Sheets save failed. Results saved locally.'
-          : '📴 You are offline. Results saved locally.'
-      );
-      
+      setSubmitMessage(isOnline ? '⚠️ Submission failed. Saved locally.' : '📴 Offline. Saved locally.');
+    }
+
+    // Save to local history regardless of cloud success
+    const results = JSON.parse(localStorage.getItem('aptitude_results') || '[]');
+    results.push({
+      ...user,
+      totalQuestions,
+      correctAnswers: counts.correctCount,
+      partialCorrect: counts.partialCount,
+      wrongAnswers: counts.wrongCount,
+      skippedQuestions: counts.skippedCount,
+      score,
+      percentage,
+      timeTaken,
+      set: selectedSetIndex + 1,
+      timestamp: new Date().toISOString(),
+      submissionId: submissionId,
+      synced: cloudSuccess,
+      disqualified: isDisqualified
+    });
+    localStorage.setItem('aptitude_results', JSON.stringify(results));
+
+    if (!cloudSuccess) {
       const failed = JSON.parse(localStorage.getItem('aptitude_failed') || '[]');
       failed.push(payload);
       localStorage.setItem('aptitude_failed', JSON.stringify(failed));
-      
-      const results = JSON.parse(localStorage.getItem('aptitude_results') || '[]');
-      results.push({
-        ...user,
-        totalQuestions,
-        correctAnswers: counts.correctCount,
-        partialCorrect: counts.partialCount,
-        wrongAnswers: counts.wrongCount,
-        skippedQuestions: counts.skippedCount,
-        score,
-        percentage,
-        timeTaken,
-        set: selectedSetIndex + 1,
-        timestamp: new Date().toISOString(),
-        synced: false
-      });
-      localStorage.setItem('aptitude_results', JSON.stringify(results));
-      console.log('💾 Saved to localStorage');
     }
     
-    // Clear active test state as it's now completed
+    // Clear active test state
     localStorage.removeItem(`aptitude_test_${user.rollNumber}`);
     
-    onComplete(score, totalQuestions, questions, answers, timeTaken);
-    
+    // Short delay to show success/error status before navigating
     setTimeout(() => {
+      if (isDisqualified) {
+        onExit();
+      } else {
+        onComplete(score, totalQuestions, questions, answers, timeTaken);
+      }
+      
+      // Cleanup submission state
       setIsSubmitting(false);
       submissionStarted.current = false;
-    }, 3000);
+    }, 1500);
   };
 
   // ============================================
@@ -730,7 +767,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
             message: `WARNING: Maximum security violations reached. Test will be submitted automatically.`,
             count: 3 
           });
-          setTimeout(() => handleSubmit(), 3000);
+          setTimeout(() => handleSubmit(true), 3000);
           return 3;
         } else {
           setSecurityAlert({ 
@@ -918,16 +955,38 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
     <div className="w-full max-w-7xl mx-auto px-4 py-4 min-h-screen bg-gray-50">
       
       {/* ======================================== */}
+      {/* NETWORK TOAST */}
+      {/* ======================================== */}
+      <AnimatePresence>
+        {networkToast?.show && (
+          <motion.div
+            initial={{ opacity: 0, y: -50 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -50 }}
+            className={cn(
+              "fixed top-12 left-1/2 -translate-x-1/2 z-[60] px-6 py-3 rounded-full shadow-lg flex items-center gap-3 border",
+              networkToast.type === 'online' 
+                ? "bg-green-500 text-white border-green-600" 
+                : "bg-red-500 text-white border-red-600"
+            )}
+          >
+            {networkToast.type === 'online' ? <Wifi className="w-4 h-4" /> : <WifiOff className="w-4 h-4" />}
+            <span className="font-bold text-sm tracking-tight">{networkToast.message}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ======================================== */}
       {/* STATUS BAR */}
       {/* ======================================== */}
       <div className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-4 py-2 bg-white border-b border-gray-200 text-xs shadow-sm">
         <div className="flex items-center gap-3">
           <div className={cn(
-            "flex items-center gap-1.5 px-2 py-1 rounded-full",
-            isOnline ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"
+            "flex items-center gap-1.5 px-2 py-1 rounded-full transition-colors duration-300",
+            isOnline ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"
           )}>
             {isOnline ? <Wifi className="w-3 h-3" /> : <WifiOff className="w-3 h-3" />}
-            <span className="font-medium">{isOnline ? 'Online' : 'Offline'}</span>
+            <span className="font-medium">Online</span>
           </div>
           
           {submissionId && (
@@ -1030,7 +1089,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
                   <div className="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-6">
                     <CheckCircle className="w-12 h-12" />
                   </div>
-                  <h3 className="text-2xl font-bold mb-3">Test Completed Successfully!</h3>
+                  <h3 className="text-2xl font-bold mb-3">Thanks for Submitting!</h3>
                   <p className="text-gray-700 mb-6">{submitMessage}</p>
                   
                   <div className="bg-green-50 p-4 rounded-lg mb-6">
@@ -1147,21 +1206,6 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
           </motion.div>
 
           <div className="flex flex-wrap items-center gap-4">
-            {/* Exit Button */}
-            <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              onClick={() => {
-                if (window.confirm("Are you sure you want to exit? Your progress will be cleared.")) {
-                  onExit();
-                }
-              }}
-              className="flex items-center gap-2 px-4 py-3 bg-white border border-black/10 text-black/40 font-bold text-[10px] tracking-widest hover:text-red-500 hover:border-red-500/20 transition-all rounded-lg"
-            >
-              <LogOut className="w-4 h-4" />
-              EXIT TEST
-            </motion.button>
-
             {/* Total Timer */}
             <motion.div 
               initial={{ opacity: 0 }}
@@ -1237,7 +1281,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
                 {/* Submit/Next Button */}
                 {currentQuestionIndex === questions.length - 1 ? (
                   <button
-                    onClick={handleSubmit}
+                    onClick={() => handleSubmit()}
                     disabled={isSubmitting}
                     className={cn(
                       "flex items-center gap-2 px-6 py-3 font-bold text-sm shadow-lg transition-all whitespace-nowrap rounded-lg",

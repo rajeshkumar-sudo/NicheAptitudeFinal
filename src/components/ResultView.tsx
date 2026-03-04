@@ -42,10 +42,10 @@ export const ResultView: React.FC<ResultViewProps> = ({ user, score, total, ques
             <Trophy className="w-6 h-6 text-white" />
           </div>
           <h2 className="text-3xl md:text-4xl font-sans font-bold mb-2 tracking-tight">
-            Assessment Completed
+            Thanks for Submitting
           </h2>
           <p className="text-white/40 text-sm font-medium mb-8 tracking-tight max-w-md">
-         Your evaluation session has been completed and saved securely in our system. Our technical team will  evaluate and let you know.
+            Assessment Completed. Your evaluation session has been saved securely in our system. Our technical team will evaluate and let you know.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-2xl mb-10">

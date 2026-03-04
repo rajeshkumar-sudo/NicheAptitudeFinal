@@ -363,11 +363,17 @@ export default function App() {
         </AnimatePresence>
       </main>
 
-      <footer className="relative z-10 w-full py-4 text-center">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-center">
+      <footer className="relative z-10 w-full py-8 text-center">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col items-center justify-center gap-4">
           <p className="text-zinc-600 text-[10px] tracking-[0.3em]">
             &copy; 2026 Niche Techies &bull; Global Standard Assessment
           </p>
+          <button 
+            onClick={handleExit}
+            className="text-[8px] tracking-[0.4em] text-black/20 hover:text-red-500 transition-colors font-bold uppercase"
+          >
+            Reset Application Session
+          </button>
         </div>
       </footer>
     </div>
