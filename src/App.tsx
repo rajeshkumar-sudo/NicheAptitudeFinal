@@ -9,15 +9,55 @@ import { AlertTriangle } from 'lucide-react';
 import { cn } from './utils';
 
 export default function App() {
-  const [appState, setAppState] = useState<AppState>('registration');
-  const [user, setUser] = useState<UserData | null>(null);
-  const [score, setScore] = useState(0);
-  const [total, setTotal] = useState(0);
-  const [questions, setQuestions] = useState<Question[]>([]);
-  const [answers, setAnswers] = useState<Record<number, string>>({});
-  const [timeTaken, setTimeTaken] = useState(0);
+  const [user, setUser] = useState<UserData | null>(() => {
+    const savedUser = localStorage.getItem('aptitude_user_session');
+    return savedUser ? JSON.parse(savedUser) : null;
+  });
+
+  const [appState, setAppState] = useState<AppState>(() => {
+    const savedUser = localStorage.getItem('aptitude_user_session');
+    if (savedUser) {
+      const parsedUser = JSON.parse(savedUser);
+      const testState = localStorage.getItem(`aptitude_test_${parsedUser.rollNumber}`);
+      if (testState) return 'test';
+      
+      const results = localStorage.getItem('aptitude_results');
+      if (results) {
+        const parsedResults = JSON.parse(results);
+        // If the last result belongs to this user, show results
+        if (parsedResults.length > 0 && parsedResults[parsedResults.length - 1].rollNumber === parsedUser.rollNumber) {
+          return 'result';
+        }
+      }
+    }
+    return 'registration';
+  });
+
+  const [score, setScore] = useState(() => {
+    const saved = localStorage.getItem('aptitude_last_score');
+    return saved ? parseInt(saved, 10) : 0;
+  });
+  const [total, setTotal] = useState(() => {
+    const saved = localStorage.getItem('aptitude_last_total');
+    return saved ? parseInt(saved, 10) : 0;
+  });
+  const [questions, setQuestions] = useState<Question[]>(() => {
+    const saved = localStorage.getItem('aptitude_last_questions');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [answers, setAnswers] = useState<Record<number, string[]>>(() => {
+    const saved = localStorage.getItem('aptitude_last_answers');
+    return saved ? JSON.parse(saved) : {};
+  });
+  const [timeTaken, setTimeTaken] = useState(() => {
+    const saved = localStorage.getItem('aptitude_last_time_taken');
+    return saved ? parseInt(saved, 10) : 0;
+  });
   const [isSendingEmail, setIsSendingEmail] = useState(false);
-  const [attempts, setAttempts] = useState(0);
+  const [attempts, setAttempts] = useState(() => {
+    const saved = localStorage.getItem('aptitude_attempts');
+    return saved ? parseInt(saved, 10) : 0;
+  });
   const [retakeAlert, setRetakeAlert] = useState<{ 
     show: boolean; 
     message: string; 
@@ -30,23 +70,59 @@ export default function App() {
 
   const handleRegister = (data: UserData) => {
     setUser(data);
+    localStorage.setItem('aptitude_user_session', JSON.stringify(data));
     setAppState('test');
   };
 
-  const handleComplete = async (finalScore: number, totalQuestions: number, testQuestions: Question[], testAnswers: Record<number, string>, testTimeTaken: number) => {
+  const handleComplete = async (finalScore: number, totalQuestions: number, testQuestions: Question[], testAnswers: Record<number, string[]>, testTimeTaken: number) => {
     setScore(finalScore);
     setTotal(totalQuestions);
     setQuestions(testQuestions);
     setAnswers(testAnswers);
     setTimeTaken(testTimeTaken);
     setAppState('result');
-    setAttempts(prev => prev + 1);
+    const newAttempts = attempts + 1;
+    setAttempts(newAttempts);
+
+    // Persist result data for refresh
+    localStorage.setItem('aptitude_last_score', finalScore.toString());
+    localStorage.setItem('aptitude_last_total', totalQuestions.toString());
+    localStorage.setItem('aptitude_last_questions', JSON.stringify(testQuestions));
+    localStorage.setItem('aptitude_last_answers', JSON.stringify(testAnswers));
+    localStorage.setItem('aptitude_last_time_taken', testTimeTaken.toString());
+    localStorage.setItem('aptitude_attempts', newAttempts.toString());
 
     if (user) {
       setIsSendingEmail(true);
       await sendTestResults(user, finalScore, totalQuestions);
       setIsSendingEmail(false);
     }
+  };
+
+  const handleExit = () => {
+    // Clear session data
+    if (user) {
+      localStorage.removeItem(`aptitude_test_${user.rollNumber}`);
+    }
+    localStorage.removeItem('aptitude_user_session');
+    localStorage.removeItem('aptitude_last_score');
+    localStorage.removeItem('aptitude_last_total');
+    localStorage.removeItem('aptitude_last_questions');
+    localStorage.removeItem('aptitude_last_answers');
+    localStorage.removeItem('aptitude_last_time_taken');
+    localStorage.removeItem('aptitude_attempts');
+    
+    // Reset state
+    setUser(null);
+    setAppState('registration');
+    setScore(0);
+    setTotal(0);
+    setQuestions([]);
+    setAnswers({});
+    setTimeTaken(0);
+    setAttempts(0);
+    setIsSendingEmail(false);
+    setRetakeAlert(null);
   };
 
   const handleRestart = () => {
@@ -266,7 +342,7 @@ export default function App() {
               transition={{ duration: 0.5, ease: [0.23, 1, 0.32, 1] }}
               className="w-full"
             >
-              <AptitudeTest user={user} onComplete={handleComplete} />
+              <AptitudeTest user={user} onComplete={handleComplete} onExit={handleExit} />
             </motion.div>
           )}
 
@@ -280,6 +356,7 @@ export default function App() {
               answers={answers}
               timeTaken={timeTaken}
               onRestart={handleRestart}
+              onExit={handleExit}
               attempts={attempts}
             />
           )}

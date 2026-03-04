@@ -14,7 +14,8 @@ import {
   Cloud,
   HardDrive,
   Database,
-  BarChart
+  BarChart,
+  LogOut
 } from 'lucide-react';
 import { Question, UserData, QuestionsData } from '../types';
 import { cn } from '../utils';
@@ -24,26 +25,98 @@ const questionsData = questionsRaw as unknown as QuestionsData;
 
 interface AptitudeTestProps {
   user: UserData;
-  onComplete: (score: number, total: number, questions: Question[], answers: Record<number, string>, timeTaken: number) => void;
+  onComplete: (score: number, total: number, questions: Question[], answers: Record<number, string[]>, timeTaken: number) => void;
+  onExit: () => void;
 }
 
-export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) => {
+export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, onExit }) => {
   // ============================================
   // STATE MANAGEMENT
   // ============================================
-  const [selectedSetIndex] = useState(() => Math.floor(Math.random() * questionsData.sets.length));
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState<Record<number, string[]>>({});
-  const [timeLeft, setTimeLeft] = useState(30 * 60); // 30 minutes in seconds
-  const [questionTimeLeft, setQuestionTimeLeft] = useState(0);
+  const [selectedSetIndex] = useState(() => {
+    const savedState = localStorage.getItem(`aptitude_test_${user.rollNumber}`);
+    if (savedState) {
+      const parsed = JSON.parse(savedState);
+      if (parsed.selectedSetIndex !== undefined) {
+        return parsed.selectedSetIndex;
+      }
+    }
+    return Math.floor(Math.random() * questionsData.sets.length);
+  });
+  
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(() => {
+    const savedState = localStorage.getItem(`aptitude_test_${user.rollNumber}`);
+    if (savedState) {
+      const parsed = JSON.parse(savedState);
+      return parsed.currentQuestionIndex || 0;
+    }
+    return 0;
+  });
+  
+  const [answers, setAnswers] = useState<Record<number, string[]>>(() => {
+    const savedState = localStorage.getItem(`aptitude_test_${user.rollNumber}`);
+    if (savedState) {
+      const parsed = JSON.parse(savedState);
+      return parsed.answers || {};
+    }
+    return {};
+  });
+  
+  const [timeLeft, setTimeLeft] = useState(() => {
+    const savedState = localStorage.getItem(`aptitude_test_${user.rollNumber}`);
+    if (savedState) {
+      const parsed = JSON.parse(savedState);
+      if (parsed.startTime) {
+        const elapsedSeconds = Math.floor((Date.now() - parsed.startTime) / 1000);
+        const remaining = Math.max(30 * 60 - elapsedSeconds, 0);
+        return remaining;
+      }
+      return parsed.timeLeft || 30 * 60;
+    }
+    return 30 * 60;
+  });
+  
+  const [questionTimeLeft, setQuestionTimeLeft] = useState(() => {
+    const savedState = localStorage.getItem(`aptitude_test_${user.rollNumber}`);
+    if (savedState) {
+      const parsed = JSON.parse(savedState);
+      return parsed.questionTimeLeft || 0;
+    }
+    return 0;
+  });
+  
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [violations, setViolations] = useState(0);
-  const [hasStarted, setHasStarted] = useState(false);
+  const [violations, setViolations] = useState(() => {
+    const savedState = localStorage.getItem(`aptitude_test_${user.rollNumber}`);
+    if (savedState) {
+      const parsed = JSON.parse(savedState);
+      return parsed.violations || 0;
+    }
+    return 0;
+  });
+  
+  const [hasStarted, setHasStarted] = useState(() => {
+    const savedState = localStorage.getItem(`aptitude_test_${user.rollNumber}`);
+    if (savedState) {
+      const parsed = JSON.parse(savedState);
+      return parsed.hasStarted || false;
+    }
+    return false;
+  });
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const [submitMessage, setSubmitMessage] = useState('');
   const [isOnline, setIsOnline] = useState(navigator.onLine);
   const [submissionId, setSubmissionId] = useState<string | null>(null);
+  const [startTime] = useState(() => {
+    const savedState = localStorage.getItem(`aptitude_test_${user.rollNumber}`);
+    if (savedState) {
+      const parsed = JSON.parse(savedState);
+      return parsed.startTime || Date.now();
+    }
+    return Date.now();
+  });
   
   // Answer statistics
   const [correctAnswers, setCorrectAnswers] = useState(0);
@@ -55,6 +128,8 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
   const lastViolationTime = useRef(0);
   const isAway = useRef(false);
   const submissionStarted = useRef(false);
+  const timerRef = useRef<NodeJS.Timeout>();
+  const questionTimerRef = useRef<NodeJS.Timeout>();
   
   // ============================================
   // SECURITY ALERT STATE
@@ -64,11 +139,20 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
     message: string; 
     count: number; 
     isInitial?: boolean 
-  } | null>({
-    show: true,
-    isInitial: true,
-    count: 0,
-    message: "Warning: Do not minimize the window or switch tabs during the test. This is violation 0 out of 3. If you do this 3 times, the test will be submitted automatically. Please keep the test in full screen."
+  } | null>(() => {
+    const savedState = localStorage.getItem(`aptitude_test_${user.rollNumber}`);
+    if (savedState) {
+      const parsed = JSON.parse(savedState);
+      if (parsed.hasStarted) {
+        return null;
+      }
+    }
+    return {
+      show: true,
+      isInitial: true,
+      count: 0,
+      message: "Warning: Do not minimize the window, switch tabs, or refresh the page during the test. This is violation 0 out of 3. If you do this 3 times, the test will be submitted automatically. Please keep the test in full screen."
+    };
   });
 
   // ============================================
@@ -83,8 +167,160 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
     'Hard': 100
   };
 
-  // GOOGLE APPS SCRIPT URL - REPLACE WITH YOUR DEPLOYED URL
   const SCRIPT_URL = import.meta.env.VITE_SCRIPT_URL || 'https://script.google.com/macros/s/AKfycbyPdPt3FNO-rmFl2RHdzDnptN1qXFCBHAJAgWOBqPmWDyVid-wG5E3kEA9BXyrd-_Vv/exec';
+
+  // ============================================
+  // ENHANCED PAGE REFRESH PREVENTION
+  // ============================================
+  useEffect(() => {
+    if (!hasStarted || isSubmitted) return;
+
+    // Prevent browser refresh/reload
+    const handleBeforeUnload = (e: BeforeUnloadEvent) => {
+      saveTestState();
+      e.preventDefault();
+      e.returnValue = 'WARNING: Refreshing will count as a security violation and may auto-submit your test!';
+      return 'WARNING: Refreshing will count as a security violation and may auto-submit your test!';
+    };
+
+    // Block keyboard shortcuts for refresh
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const isRefreshKey = 
+        e.key === 'F5' || 
+        (e.ctrlKey && e.key === 'r') || 
+        (e.metaKey && e.key === 'r') ||
+        (e.ctrlKey && e.key === 'R') ||
+        (e.metaKey && e.key === 'R') ||
+        (e.ctrlKey && e.key === 'f5') ||
+        (e.ctrlKey && e.shiftKey && e.key === 'r');
+
+      if (isRefreshKey) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        // Show custom alert
+        setSecurityAlert({ 
+          show: true, 
+          message: `⚠️ REFRESH ATTEMPT DETECTED!\n\nYou attempted to refresh the page. This is security violation ${violations + 1}/3.\n\nIf you reach 3 violations, your test will be automatically submitted.`,
+          count: violations + 1
+        });
+        
+        // Count as violation
+        setViolations(prev => {
+          const newCount = prev + 1;
+          
+          if (newCount >= 3) {
+            setTimeout(() => handleSubmit(), 3000);
+          }
+          
+          return newCount;
+        });
+        
+        saveTestState();
+        return false;
+      }
+    };
+
+    // Disable right-click context menu
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+      return false;
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+    window.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('contextmenu', handleContextMenu);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+      window.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('contextmenu', handleContextMenu);
+    };
+  }, [hasStarted, isSubmitted, violations]);
+
+  // ============================================
+  // PREVENT BROWSER BACK/FORWARD NAVIGATION
+  // ============================================
+  useEffect(() => {
+    if (!hasStarted || isSubmitted) return;
+
+    // Push a dummy state to prevent back navigation
+    window.history.pushState(null, '', window.location.href);
+    
+    const handlePopState = (e: PopStateEvent) => {
+      // Push state again to prevent navigation
+      window.history.pushState(null, '', window.location.href);
+      
+      // Count as violation
+      setViolations(prev => {
+        const newCount = prev + 1;
+        
+        setSecurityAlert({ 
+          show: true, 
+          message: `Security Violation ${newCount}/3: Browser navigation detected. Please stay on this page.`,
+          count: newCount
+        });
+        
+        if (newCount >= 3) {
+          setTimeout(() => handleSubmit(), 3000);
+        }
+        
+        return newCount;
+      });
+      
+      saveTestState();
+    };
+
+    window.addEventListener('popstate', handlePopState);
+
+    return () => {
+      window.removeEventListener('popstate', handlePopState);
+    };
+  }, [hasStarted, isSubmitted]);
+
+  // ============================================
+  // SAVE TEST STATE TO LOCALSTORAGE
+  // ============================================
+  const saveTestState = useCallback(() => {
+    if (isSubmitted) return;
+    
+    const state = {
+      selectedSetIndex,
+      currentQuestionIndex,
+      answers,
+      timeLeft,
+      questionTimeLeft,
+      violations,
+      hasStarted,
+      startTime,
+      lastSaved: Date.now()
+    };
+    
+    localStorage.setItem(`aptitude_test_${user.rollNumber}`, JSON.stringify(state));
+    console.log('💾 Test state saved');
+  }, [selectedSetIndex, currentQuestionIndex, answers, timeLeft, questionTimeLeft, violations, hasStarted, startTime, user.rollNumber, isSubmitted]);
+
+  // ============================================
+  // AUTO-SAVE EVERY 30 SECONDS
+  // ============================================
+  useEffect(() => {
+    if (!hasStarted || isSubmitted) return;
+    
+    const autoSaveInterval = setInterval(() => {
+      saveTestState();
+    }, 30000);
+    
+    return () => clearInterval(autoSaveInterval);
+  }, [hasStarted, isSubmitted, saveTestState]);
+
+  // ============================================
+  // REACTIVE SAVE FOR CRITICAL STATE CHANGES
+  // ============================================
+  useEffect(() => {
+    if (hasStarted && !isSubmitted) {
+      saveTestState();
+    }
+  }, [currentQuestionIndex, answers, violations, hasStarted, isSubmitted, saveTestState]);
 
   // ============================================
   // ONLINE STATUS MONITOR
@@ -131,7 +367,6 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
         }
       }
       
-      // Remove successful submissions
       const remaining = failed.filter((_: any, index: number) => !successful.includes(index));
       localStorage.setItem('aptitude_failed', JSON.stringify(remaining));
       
@@ -244,27 +479,21 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
   };
 
   // ============================================
-  // CHECK IF ANSWER IS CORRECT (HANDLES MULTIPLE CORRECT ANSWERS)
+  // CHECK IF ANSWER IS CORRECT
   // ============================================
   const isAnswerCorrect = (question: Question, userAnswer: string[]): boolean => {
-    // Get the correct answer(s) from the question
     const correctAnswer = question.answer;
     
-    // If no answer selected
     if (!userAnswer || userAnswer.length === 0) return false;
     
-    // Case 1: Single correct answer (string)
     if (typeof correctAnswer === 'string') {
       return userAnswer.length === 1 && userAnswer[0] === correctAnswer;
     }
     
-    // Case 2: Multiple correct answers (array)
     if (Array.isArray(correctAnswer)) {
-      // Sort both arrays to compare regardless of order
       const sortedUserAnswer = [...userAnswer].sort();
       const sortedCorrectAnswer = [...correctAnswer].sort();
       
-      // Check if arrays are equal
       return sortedUserAnswer.length === sortedCorrectAnswer.length &&
              sortedUserAnswer.every((value, index) => value === sortedCorrectAnswer[index]);
     }
@@ -273,19 +502,17 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
   };
 
   // ============================================
-  // CHECK IF ANSWER IS PARTIALLY CORRECT (FOR MULTIPLE ANSWER QUESTIONS)
+  // CHECK IF ANSWER IS PARTIALLY CORRECT
   // ============================================
   const isAnswerPartiallyCorrect = (question: Question, userAnswer: string[]): boolean => {
     const correctAnswer = question.answer;
     
     if (!userAnswer || userAnswer.length === 0) return false;
-    if (!Array.isArray(correctAnswer)) return false; // Only relevant for multiple answer questions
+    if (!Array.isArray(correctAnswer)) return false;
     
-    // Check if user selected some correct answers but not all
     const isFullyCorrect = isAnswerCorrect(question, userAnswer);
     if (isFullyCorrect) return false;
     
-    // Check if at least one answer is correct
     return userAnswer.some(ans => correctAnswer.includes(ans));
   };
 
@@ -306,19 +533,15 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
       const userAnswer = answers[q.id] || [];
       
       if (userAnswer.length === 0) {
-        // Question was skipped/unanswered
         skippedCount++;
         skippedQuestionIds.push(q.id.toString());
       } else if (isAnswerCorrect(q, userAnswer)) {
-        // Fully correct answer
         correctCount++;
         correctAnswerIds.push(q.id.toString());
       } else if (isAnswerPartiallyCorrect(q, userAnswer)) {
-        // Partially correct (for multiple answer questions)
         partialCount++;
         partialAnswerIds.push(q.id.toString());
       } else {
-        // Completely wrong answer
         wrongCount++;
         wrongAnswerIds.push(q.id.toString());
       }
@@ -340,7 +563,6 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
   // HANDLE FINAL SUBMISSION
   // ============================================
   const handleSubmit = async () => {
-    // Prevent double submission
     if (isSubmitted || isSubmitting || submissionStarted.current) {
       console.log('Submission already in progress');
       return;
@@ -354,9 +576,9 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
 
     console.log('🎯 Starting final submission...');
     
-    // ============================================
-    // Calculate detailed answer statistics
-    // ============================================
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (questionTimerRef.current) clearInterval(questionTimerRef.current);
+    
     const counts = getAnswerCounts();
     
     setCorrectAnswers(counts.correctCount);
@@ -384,17 +606,12 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
       skippedQuestionIds: counts.skippedQuestionIds
     });
 
-    // ============================================
-    // Prepare enhanced payload with all data
-    // ============================================
     const payload = {
-      // User info
       name: user.name,
       email: user.email,
       phone: user.phone,
       rollNumber: user.rollNumber,
       
-      // Test metadata
       totalQuestions: totalQuestions,
       correctAnswers: counts.correctCount,
       partialCorrect: counts.partialCount,
@@ -406,30 +623,24 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
       timeTaken: timeTaken,
       timestamp: new Date().toISOString(),
       
-      // Detailed answer tracking
       answers: answers,
       correctAnswerIds: counts.correctAnswerIds,
       partialAnswerIds: counts.partialAnswerIds,
       wrongAnswerIds: counts.wrongAnswerIds,
       skippedQuestionIds: counts.skippedQuestionIds,
       
-      // Browser info
       browserInfo: getBrowserInfo(),
       userAgent: navigator.userAgent
     };
 
-    // Try to submit to Google Sheets
     setSubmitMessage('Connecting to Google Sheets...');
     const cloudSuccess = await submitToGoogleSheets(payload);
     
     if (cloudSuccess) {
       setSubmitStatus('success');
-      setSubmitMessage(
-        `✓ Results saved to Google Sheets!`
-      );
+      setSubmitMessage(`✓ Results saved to Google Sheets!`);
       console.log('✅ Cloud save successful');
       
-      // Save to localStorage as backup
       const results = JSON.parse(localStorage.getItem('aptitude_results') || '[]');
       results.push({
         ...user,
@@ -449,7 +660,6 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
       localStorage.setItem('aptitude_results', JSON.stringify(results));
       
     } else {
-      // Save to localStorage for later sync
       setSubmitStatus('error');
       setSubmitMessage(
         isOnline 
@@ -477,14 +687,14 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
         synced: false
       });
       localStorage.setItem('aptitude_results', JSON.stringify(results));
-      
       console.log('💾 Saved to localStorage');
     }
     
-    // Call the original onComplete prop
+    // Clear active test state as it's now completed
+    localStorage.removeItem(`aptitude_test_${user.rollNumber}`);
+    
     onComplete(score, totalQuestions, questions, answers, timeTaken);
     
-    // Clear submitting state after delay
     setTimeout(() => {
       setIsSubmitting(false);
       submissionStarted.current = false;
@@ -531,6 +741,8 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
           return newCount;
         }
       });
+      
+      saveTestState();
     };
 
     const handleVisibilityChange = () => {
@@ -564,7 +776,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
       window.removeEventListener('blur', handleBlur);
       window.removeEventListener('focus', handleFocus);
     };
-  }, [isSubmitted, hasStarted]);
+  }, [isSubmitted, hasStarted, saveTestState]);
 
   // ============================================
   // MAIN TIMER EFFECT
@@ -577,19 +789,29 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
       return;
     }
 
-    const timer = setInterval(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    if (questionTimerRef.current) clearInterval(questionTimerRef.current);
+
+    timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
           handleSubmit();
           return 0;
         }
-        return prev - 1;
+        const newTime = prev - 1;
+        if (newTime % 60 === 0) {
+          saveTestState();
+        }
+        return newTime;
       });
-      
+    }, 1000);
+
+    questionTimerRef.current = setInterval(() => {
       setQuestionTimeLeft((prev) => {
         if (prev <= 1) {
           if (currentQuestionIndex < questions.length - 1) {
             setCurrentQuestionIndex(prevIndex => prevIndex + 1);
+            saveTestState();
           }
           return 0;
         }
@@ -597,8 +819,24 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
       });
     }, 1000);
 
-    return () => clearInterval(timer);
-  }, [timeLeft, hasStarted, isSubmitted, currentQuestionIndex, questions.length]);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+      if (questionTimerRef.current) clearInterval(questionTimerRef.current);
+    };
+  }, [timeLeft, hasStarted, isSubmitted, currentQuestionIndex, questions.length, saveTestState]);
+
+  // ============================================
+  // RESTORE TEST STATE ON MOUNT
+  // ============================================
+  useEffect(() => {
+    const savedState = localStorage.getItem(`aptitude_test_${user.rollNumber}`);
+    if (savedState && !hasStarted) {
+      const parsed = JSON.parse(savedState);
+      if (parsed.isSubmitted) {
+        setIsSubmitted(true);
+      }
+    }
+  }, [user.rollNumber, hasStarted]);
 
   // ============================================
   // UTILITY FUNCTIONS
@@ -615,29 +853,40 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
     
     setAnswers(prev => {
       const currentAnswers = prev[currentQ.id] || [];
+      let newAnswers;
       
       if (isMultipleAnswer) {
-        // For multiple answer questions, toggle the selection
         if (currentAnswers.includes(optionKey)) {
-          // Remove if already selected
-          return {
+          newAnswers = {
             ...prev,
             [currentQ.id]: currentAnswers.filter(k => k !== optionKey)
           };
         } else {
-          // Add if not selected
-          return {
+          newAnswers = {
             ...prev,
             [currentQ.id]: [...currentAnswers, optionKey]
           };
         }
       } else {
-        // For single answer questions, replace with new selection
-        return {
+        newAnswers = {
           ...prev,
           [currentQ.id]: [optionKey]
         };
       }
+      
+      localStorage.setItem(`aptitude_test_${user.rollNumber}`, JSON.stringify({
+        selectedSetIndex,
+        currentQuestionIndex,
+        answers: newAnswers,
+        timeLeft,
+        questionTimeLeft,
+        violations,
+        hasStarted,
+        startTime,
+        lastSaved: Date.now()
+      }));
+      
+      return newAnswers;
     });
   };
 
@@ -673,7 +922,6 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
       {/* ======================================== */}
       <div className="fixed top-0 left-0 right-0 z-50 flex justify-between items-center px-4 py-2 bg-white border-b border-gray-200 text-xs shadow-sm">
         <div className="flex items-center gap-3">
-          {/* Online Status */}
           <div className={cn(
             "flex items-center gap-1.5 px-2 py-1 rounded-full",
             isOnline ? "bg-green-50 text-green-700" : "bg-yellow-50 text-yellow-700"
@@ -682,7 +930,6 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
             <span className="font-medium">{isOnline ? 'Online' : 'Offline'}</span>
           </div>
           
-          {/* Submission Status */}
           {submissionId && (
             <div className="flex items-center gap-1.5 px-2 py-1 bg-blue-50 text-blue-700 rounded-full">
               <Database className="w-3 h-3" />
@@ -727,7 +974,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
                 <div className="text-sm text-gray-600">Security Violations</div>
               </div>
               
-              <p className="text-gray-700 mb-8">
+              <p className="text-gray-700 mb-8 whitespace-pre-line">
                 {securityAlert.message}
               </p>
               
@@ -738,6 +985,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
                     if (securityAlert.isInitial) {
                       lastViolationTime.current = Date.now();
                       setHasStarted(true);
+                      saveTestState();
                     }
                   }}
                   className="w-full py-4 bg-black text-white font-bold hover:bg-gray-800 transition-all rounded-lg"
@@ -785,7 +1033,6 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
                   <h3 className="text-2xl font-bold mb-3">Test Completed Successfully!</h3>
                   <p className="text-gray-700 mb-6">{submitMessage}</p>
                   
-                  {/* Answer Statistics Breakdown */}
                   <div className="bg-green-50 p-4 rounded-lg mb-6">
                     <div className="flex items-center gap-2 mb-3">
                       <BarChart className="w-4 h-4 text-green-600" />
@@ -842,7 +1089,6 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
                   <h3 className="text-2xl font-bold mb-3">Results Saved Locally</h3>
                   <p className="text-gray-700 mb-4">{submitMessage}</p>
                   
-                  {/* Answer Statistics Breakdown (even for error) */}
                   <div className="bg-yellow-50 p-4 rounded-lg mb-6">
                     <div className="grid grid-cols-4 gap-2 mb-4">
                       <div className="text-center">
@@ -876,7 +1122,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
                   </div>
                   
                   <button
-                    onClick={() => window.location.href = '/'}
+                    onClick={onExit}
                     className="px-8 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors"
                   >
                     Return to Home
@@ -901,6 +1147,21 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
           </motion.div>
 
           <div className="flex flex-wrap items-center gap-4">
+            {/* Exit Button */}
+            <motion.button
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              onClick={() => {
+                if (window.confirm("Are you sure you want to exit? Your progress will be cleared.")) {
+                  onExit();
+                }
+              }}
+              className="flex items-center gap-2 px-4 py-3 bg-white border border-black/10 text-black/40 font-bold text-[10px] tracking-widest hover:text-red-500 hover:border-red-500/20 transition-all rounded-lg"
+            >
+              <LogOut className="w-4 h-4" />
+              EXIT TEST
+            </motion.button>
+
             {/* Total Timer */}
             <motion.div 
               initial={{ opacity: 0 }}
@@ -999,7 +1260,9 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
                   </button>
                 ) : (
                   <button
-                    onClick={() => setCurrentQuestionIndex((prev) => prev + 1)}
+                    onClick={() => {
+                      setCurrentQuestionIndex((prev) => prev + 1);
+                    }}
                     disabled={isSubmitting}
                     className="flex items-center gap-2 px-6 py-3 bg-black text-white font-bold text-sm shadow-lg hover:bg-gray-800 transition-all whitespace-nowrap rounded-lg"
                   >
@@ -1039,7 +1302,6 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete }) 
                     </span>
                     <span className="font-medium">{option}</span>
                     
-                    {/* Show checkmark for selected multiple answers */}
                     {isMultipleAnswer && isOptionSelected(currentQuestion.id, key) && (
                       <CheckCircle className="w-5 h-5 ml-auto text-white/80" />
                     )}

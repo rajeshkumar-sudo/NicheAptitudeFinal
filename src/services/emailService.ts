@@ -1,9 +1,9 @@
 import emailjs from '@emailjs/browser';
 import { UserData } from '../types';
 
-const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_gqu9p9s';
-const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_e8m6jyz';
-const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'BmWc-bm3Eh3cG5Baj';
+const SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'service_hi5hxnj';
+const TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_w4loo78';
+const PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'LtwTV0xsmjls3ZUIx';
 
 export const sendTestResults = async (user: UserData, score: number, total: number) => {
   const templateParams = {

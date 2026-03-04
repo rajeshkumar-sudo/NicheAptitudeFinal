@@ -12,10 +12,11 @@ interface ResultViewProps {
   answers: Record<number, string>;
   timeTaken: number;
   onRestart: () => void;
+  onExit: () => void;
   attempts: number;
 }
 
-export const ResultView: React.FC<ResultViewProps> = ({ user, score, total, questions, answers, timeTaken, onRestart, attempts }) => {
+export const ResultView: React.FC<ResultViewProps> = ({ user, score, total, questions, answers, timeTaken, onRestart, onExit, attempts }) => {
   const percentage = (score / total) * 100;
   const isPassed = percentage >= 60;
 
@@ -80,7 +81,7 @@ export const ResultView: React.FC<ResultViewProps> = ({ user, score, total, ques
               Retake
             </button>
             <button
-              onClick={() => window.location.reload()}
+              onClick={onExit}
               className="flex-1 flex items-center justify-center gap-4 py-5 bg-transparent border border-white/20 text-white/60 font-bold tracking-[0.2em] text-[11px] hover:text-white hover:border-white transition-all"
             >
               <LogOut className="w-4 h-4" />
