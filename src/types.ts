@@ -26,3 +26,10 @@ export interface UserData {
 }
 
 export type AppState = 'registration' | 'test' | 'result';
+
+export interface TestStats {
+  correct: number;
+  wrong: number;
+  skipped: number;
+  partial: number;
+}

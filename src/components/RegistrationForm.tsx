@@ -53,7 +53,7 @@ export const RegistrationForm: React.FC<RegistrationFormProps> = ({ onRegister }
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-lg bg-white p-8 md:p-10 border border-black/10 shadow-2xl relative overflow-hidden"
+      className="w-full max-w-lg bg-white p-4 md:p-10 border-x-0 md:border border-black/10 shadow-none md:shadow-2xl relative overflow-hidden"
     >
       <div className="relative z-10 mb-8">
         <motion.div

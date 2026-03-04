@@ -25,7 +25,7 @@ const questionsData = questionsRaw as unknown as QuestionsData;
 
 interface AptitudeTestProps {
   user: UserData;
-  onComplete: (score: number, total: number, questions: Question[], answers: Record<number, string[]>, timeTaken: number) => void;
+  onComplete: (score: number, total: number, questions: Question[], answers: Record<number, string[]>, timeTaken: number, stats: { correct: number, wrong: number, skipped: number, partial: number }) => void;
   onExit: () => void;
 }
 
@@ -202,7 +202,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
         // Show custom alert
         setSecurityAlert({ 
           show: true, 
-          message: `⚠️ REFRESH ATTEMPT DETECTED!\n\nYou attempted to refresh the page. This is security violation ${violations + 1}/3.\n\nIf you reach 3 violations, your test will be automatically submitted.`,
+          message: `⚠️ REFRESH ATTEMPT DETECTED!\n\nYou attempted to refresh the page. This is security violation ${violations + 1}/3.\n\nOn the 3rd violation, your test will be auto-submitted.`,
           count: violations + 1
         });
         
@@ -211,7 +211,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
           const newCount = prev + 1;
           
           if (newCount >= 3) {
-            setTimeout(() => handleSubmit(true), 3000);
+            setTimeout(() => handleSubmit(true, newCount), 3000);
           }
           
           return newCount;
@@ -263,7 +263,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
         });
         
         if (newCount >= 3) {
-          setTimeout(() => handleSubmit(true), 3000);
+          setTimeout(() => handleSubmit(true, newCount), 3000);
         }
         
         return newCount;
@@ -298,15 +298,15 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
           if (newCount >= 3) {
             setSecurityAlert({ 
               show: true, 
-              message: `⚠️ MAXIMUM VIOLATIONS REACHED\n\nPage refresh detected. This is violation 3/3. Your test is being submitted automatically.`,
+              message: `⚠️ MAXIMUM REFRESH LIMIT REACHED\n\nPage refresh detected. This is violation 3/3. Your test is being submitted automatically.`,
               count: 3
             });
             // Give them a moment to see the message before submitting
-            setTimeout(() => handleSubmit(true), 3000);
+            setTimeout(() => handleSubmit(true, newCount), 3000);
           } else {
             setSecurityAlert({ 
               show: true, 
-              message: `⚠️ SECURITY VIOLATION ${newCount}/3\n\nPage refresh detected. Please do not refresh the page during the test.`,
+              message: `⚠️ REFRESH DETECTED (${newCount}/3)\n\nPlease do not refresh the page during the test. On the 3rd refresh, your test will be auto-submitted.`,
               count: newCount
             });
           }
@@ -626,7 +626,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
   // ============================================
   // HANDLE FINAL SUBMISSION
   // ============================================
-  const handleSubmit = async (isDisqualified = false) => {
+  const handleSubmit = async (isDisqualified = false, violationOverride?: number) => {
     if (isSubmitted || isSubmitting || submissionStarted.current) {
       console.log('Submission already in progress');
       return;
@@ -655,6 +655,8 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
     const timeTaken = (30 * 60) - timeLeft;
     const percentage = ((score / totalQuestions) * 100).toFixed(2);
     
+    const finalViolations = violationOverride !== undefined ? violationOverride : (violations + (isDisqualified ? 1 : 0));
+
     const payload = {
       name: user.name,
       email: user.email,
@@ -678,7 +680,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
       wrongAnswerIds: counts.wrongAnswerIds,
       skippedQuestionIds: counts.skippedQuestionIds,
       
-      violations: violations + (isDisqualified ? 1 : 0),
+      violations: finalViolations,
       disqualified: isDisqualified,
       browserInfo: getBrowserInfo(),
       userAgent: navigator.userAgent
@@ -729,7 +731,12 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
       if (isDisqualified) {
         onExit();
       } else {
-        onComplete(score, totalQuestions, questions, answers, timeTaken);
+        onComplete(score, totalQuestions, questions, answers, timeTaken, {
+          correct: counts.correctCount,
+          wrong: counts.wrongCount,
+          skipped: counts.skippedCount,
+          partial: counts.partialCount
+        });
       }
       
       // Cleanup submission state
@@ -767,7 +774,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
             message: `WARNING: Maximum security violations reached. Test will be submitted automatically.`,
             count: 3 
           });
-          setTimeout(() => handleSubmit(true), 3000);
+          setTimeout(() => handleSubmit(true, newCount), 3000);
           return 3;
         } else {
           setSecurityAlert({ 
@@ -1061,7 +1068,7 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
       {/* SUBMIT STATUS MODAL */}
       {/* ======================================== */}
       <AnimatePresence>
-        {isSubmitted && submitStatus !== 'idle' && (
+        {isSubmitted && submitStatus === 'saving' && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
@@ -1069,125 +1076,16 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
               exit={{ opacity: 0, scale: 0.9 }}
               className="w-full max-w-md bg-white p-8 shadow-2xl text-center rounded-xl"
             >
-              {submitStatus === 'saving' && (
-                <>
-                  <div className="relative w-24 h-24 mx-auto mb-6">
-                    <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
-                    <div className="absolute inset-0 border-4 border-black rounded-full border-t-transparent animate-spin"></div>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3">Saving Your Results</h3>
-                  <p className="text-gray-600 mb-4">{submitMessage}</p>
-                  <div className="flex items-center justify-center gap-2 text-sm text-gray-500 bg-gray-50 p-3 rounded-lg">
-                    <Save className="w-4 h-4" />
-                    <span>Please wait while we save to Google Sheets...</span>
-                  </div>
-                </>
-              )}
-              
-              {submitStatus === 'success' && (
-                <>
-                  <div className="w-24 h-24 bg-green-500 text-white rounded-full flex items-center justify-center mx-auto mb-6">
-                    <CheckCircle className="w-12 h-12" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3">Thanks for Submitting!</h3>
-                  <p className="text-gray-700 mb-6">{submitMessage}</p>
-                  
-                  <div className="bg-green-50 p-4 rounded-lg mb-6">
-                    <div className="flex items-center gap-2 mb-3">
-                      <BarChart className="w-4 h-4 text-green-600" />
-                      <span className="font-semibold text-green-800">Your Results</span>
-                    </div>
-                    
-                    <div className="grid grid-cols-4 gap-2 mb-4">
-                      <div className="text-center">
-                        <div className="text-3xl font-bold text-green-600">{correctAnswers}</div>
-                        <div className="text-xs text-gray-600 mt-1">Correct</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-3xl font-bold text-yellow-500">{partialCorrectAnswers}</div>
-                        <div className="text-xs text-gray-600 mt-1">Partial</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-3xl font-bold text-red-500">{wrongAnswers}</div>
-                        <div className="text-xs text-gray-600 mt-1">Wrong</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-3xl font-bold text-gray-400">{skippedQuestions}</div>
-                        <div className="text-xs text-gray-600 mt-1">Skipped</div>
-                      </div>
-                    </div>
-                    
-                    <div className="text-center pt-3 border-t border-green-200">
-                      <div className="text-sm text-gray-600 mb-1">Total Questions: {questions.length}</div>
-                      <div className="text-2xl font-bold text-green-700">
-                        {((correctAnswers/questions.length)*100).toFixed(1)}%
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-green-50 p-4 rounded-lg mb-6 text-left">
-                    <div className="flex justify-between mb-2">
-                      <span className="text-gray-600">Submission ID:</span>
-                      <span className="font-mono font-bold">{submissionId || 'N/A'}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Saved to:</span>
-                      <span className="font-medium text-green-700">Google Sheets ✓</span>
-                    </div>
-                  </div>
-                  
-                  <p className="text-sm text-gray-500">You may now close this window.</p>
-                </>
-              )}
-              
-              {submitStatus === 'error' && (
-                <>
-                  <div className="w-24 h-24 bg-yellow-500 text-white rounded-full flex items-center justify-center mx-auto mb-6">
-                    <XCircle className="w-12 h-12" />
-                  </div>
-                  <h3 className="text-2xl font-bold mb-3">Results Saved Locally</h3>
-                  <p className="text-gray-700 mb-4">{submitMessage}</p>
-                  
-                  <div className="bg-yellow-50 p-4 rounded-lg mb-6">
-                    <div className="grid grid-cols-4 gap-2 mb-4">
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-green-600">{correctAnswers}</div>
-                        <div className="text-xs text-gray-600">Correct</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-yellow-500">{partialCorrectAnswers}</div>
-                        <div className="text-xs text-gray-600">Partial</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-red-500">{wrongAnswers}</div>
-                        <div className="text-xs text-gray-600">Wrong</div>
-                      </div>
-                      <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-400">{skippedQuestions}</div>
-                        <div className="text-xs text-gray-600">Skipped</div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="bg-yellow-50 p-4 rounded-lg mb-6 text-left">
-                    <p className="text-sm text-yellow-800 mb-2 flex items-center gap-2">
-                      <HardDrive className="w-4 h-4" />
-                      <span>Your results are safely stored in your browser</span>
-                    </p>
-                    <p className="text-sm text-yellow-800 flex items-center gap-2">
-                      <Cloud className="w-4 h-4" />
-                      <span>Will auto-sync to Google Sheets when online</span>
-                    </p>
-                  </div>
-                  
-                  <button
-                    onClick={onExit}
-                    className="px-8 py-3 bg-black text-white rounded-lg font-medium hover:bg-gray-800 transition-colors"
-                  >
-                    Return to Home
-                  </button>
-                </>
-              )}
+              <div className="relative w-24 h-24 mx-auto mb-6">
+                <div className="absolute inset-0 border-4 border-gray-200 rounded-full"></div>
+                <div className="absolute inset-0 border-4 border-black rounded-full border-t-transparent animate-spin"></div>
+              </div>
+              <h3 className="text-2xl font-bold mb-3">Saving Your Results</h3>
+              <p className="text-gray-600 mb-4">{submitMessage}</p>
+              <div className="flex items-center justify-center gap-2 text-sm text-gray-500 bg-gray-50 p-3 rounded-lg">
+                <Save className="w-4 h-4" />
+                <span>Please wait...</span>
+              </div>
             </motion.div>
           </div>
         )}
@@ -1196,48 +1094,102 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
       {/* ======================================== */}
       {/* MAIN CONTENT */}
       {/* ======================================== */}
-      <div className="pt-16">
+      <div className="pt-4 md:pt-16">
         
-        {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-            <h2 className="text-3xl font-bold text-black tracking-tight">{user.name}</h2>
-            <p className="text-gray-500 font-medium mt-1">Technical Aptitude Evaluation</p>
+      {/* Header */}
+      <div className="hidden md:flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+          <h2 className="text-3xl font-bold text-black tracking-tight">{user.name}</h2>
+          <p className="text-gray-500 font-medium mt-1">Technical Aptitude Evaluation</p>
+        </motion.div>
+
+        <div className="flex flex-wrap items-center gap-4">
+          {/* Total Timer */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            whileHover={{ y: -2, transition: { duration: 0.2 } }}
+            className="relative flex flex-col gap-1 min-w-[160px] bg-zinc-900 p-4 rounded-xl shadow-xl border border-white/10 overflow-hidden group"
+          >
+            {/* Glittering Shimmer Line */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
+            </div>
+            
+            <span className="text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase relative z-10">TOTAL TIME</span>
+            <div className="flex items-center gap-3 relative z-10">
+              <Clock className={cn("w-5 h-5", timeLeft < 300 ? "text-red-400 animate-pulse" : "text-zinc-400")} />
+              <span className={cn("font-mono text-2xl font-bold", timeLeft < 300 ? "text-red-400" : "text-white")}>
+                {formatTime(timeLeft)}
+              </span>
+            </div>
           </motion.div>
 
-          <div className="flex flex-wrap items-center gap-4">
-            {/* Total Timer */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="flex flex-col gap-1 min-w-[140px] bg-white p-3 rounded-lg shadow-sm border border-gray-100"
-            >
-              <span className="text-xs font-bold tracking-widest text-gray-400">TOTAL TIME</span>
-              <div className="flex items-center gap-3">
-                <Clock className={cn("w-5 h-5", timeLeft < 300 ? "text-red-500 animate-pulse" : "text-gray-400")} />
-                <span className={cn("font-mono text-2xl font-bold", timeLeft < 300 ? "text-red-500" : "text-gray-800")}>
-                  {formatTime(timeLeft)}
-                </span>
-              </div>
-            </motion.div>
+          {/* Question Timer */}
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.1 }}
+            whileHover={{ y: -2, transition: { duration: 0.2 } }}
+            className="relative flex flex-col gap-1 min-w-[160px] bg-zinc-900 p-4 rounded-xl shadow-xl border border-white/10 overflow-hidden group"
+          >
+            {/* Glittering Shimmer Line */}
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+              <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
+            </div>
 
-            {/* Question Timer */}
-            <motion.div 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.1 }}
-              className="flex flex-col gap-1 min-w-[140px] bg-white p-3 rounded-lg shadow-sm border border-gray-100"
-            >
-              <span className="text-xs font-bold tracking-widest text-gray-400">QUESTION TIME</span>
-              <div className="flex items-center gap-3">
-                <Clock className={cn("w-5 h-5", questionTimeLeft < 10 ? "text-red-500 animate-pulse" : "text-gray-400")} />
-                <span className={cn("font-mono text-2xl font-bold", questionTimeLeft < 10 ? "text-red-500" : "text-gray-800")}>
-                  {formatTime(questionTimeLeft)}
-                </span>
-              </div>
-            </motion.div>
-          </div>
+            <span className="text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase relative z-10">QUESTION TIME</span>
+            <div className="flex items-center gap-3 relative z-10">
+              <Clock className={cn("w-5 h-5", questionTimeLeft < 10 ? "text-red-400 animate-pulse" : "text-zinc-400")} />
+              <span className={cn("font-mono text-2xl font-bold", questionTimeLeft < 10 ? "text-red-400" : "text-white")}>
+                {formatTime(questionTimeLeft)}
+              </span>
+            </div>
+          </motion.div>
         </div>
+      </div>
+
+      {/* Mobile Prominent Timers */}
+      <div className="grid grid-cols-2 md:hidden gap-3 mb-6 px-4">
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative flex flex-col gap-1 bg-zinc-900 p-4 rounded-2xl shadow-xl border border-white/10 overflow-hidden"
+        >
+          {/* Glittering Shimmer Line */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
+          </div>
+
+          <span className="text-[9px] font-bold tracking-[0.2em] text-zinc-500 uppercase relative z-10">TOTAL TIME</span>
+          <div className="flex items-center gap-2 relative z-10">
+            <Clock className={cn("w-4 h-4", timeLeft < 300 ? "text-red-400 animate-pulse" : "text-zinc-400")} />
+            <span className={cn("font-mono text-2xl font-bold", timeLeft < 300 ? "text-red-400" : "text-white")}>
+              {formatTime(timeLeft)}
+            </span>
+          </div>
+        </motion.div>
+
+        <motion.div 
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.1 }}
+          className="relative flex flex-col gap-1 bg-zinc-900 p-4 rounded-2xl shadow-xl border border-white/10 overflow-hidden"
+        >
+          {/* Glittering Shimmer Line */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
+          </div>
+
+          <span className="text-[9px] font-bold tracking-[0.2em] text-zinc-500 uppercase relative z-10">QUESTION TIME</span>
+          <div className="flex items-center gap-2 relative z-10">
+            <Clock className={cn("w-4 h-4", questionTimeLeft < 10 ? "text-red-400 animate-pulse" : "text-zinc-400")} />
+            <span className={cn("font-mono text-2xl font-bold", questionTimeLeft < 10 ? "text-red-400" : "text-white")}>
+              {formatTime(questionTimeLeft)}
+            </span>
+          </div>
+        </motion.div>
+      </div>
 
         {/* Question Card */}
         <div className="w-full">
@@ -1248,10 +1200,10 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.3 }}
-              className="bg-white p-6 md:p-8 border border-gray-200 shadow-lg rounded-xl relative"
+              className="bg-white p-4 md:p-8 border-x-0 md:border border-gray-200 shadow-none md:shadow-lg md:rounded-xl relative"
             >
               {/* Progress Bar */}
-              <div className="absolute top-0 left-0 w-full h-1 bg-gray-100 rounded-t-xl overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gray-100 md:rounded-t-xl overflow-hidden">
                 <motion.div 
                   initial={{ width: 0 }}
                   animate={{ width: `${progress}%` }}
@@ -1261,21 +1213,19 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
               </div>
 
               {/* Question Header */}
-              <div className="mb-6 flex justify-between items-start gap-6">
-                <div className="flex-grow">
-                  <div className="flex items-center gap-4 mb-4">
-                    <span className="text-gray-400 text-sm font-bold tracking-widest">
-                      QUESTION {currentQuestionIndex + 1} / {questions.length}
+              <div className="mb-8 flex justify-between items-center gap-4">
+                <div className="flex flex-col">
+                  <span className="text-gray-400 text-sm md:text-sm font-bold tracking-[0.1em] uppercase leading-tight">
+                    QUESTION {currentQuestionIndex + 1} /
+                  </span>
+                  <span className="text-gray-400 text-sm md:text-sm font-bold tracking-[0.1em] uppercase leading-tight">
+                    {questions.length}
+                  </span>
+                  {isMultipleAnswer && (
+                    <span className="text-blue-600 text-[10px] font-bold uppercase tracking-widest mt-1">
+                      Multiple answers
                     </span>
-                    {isMultipleAnswer && (
-                      <span className="bg-blue-100 text-blue-800 text-xs font-bold px-3 py-1 rounded-full">
-                        Multiple answers allowed
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="text-xl md:text-2xl font-bold text-black leading-tight">
-                    {currentQuestion.question}
-                  </h3>
+                  )}
                 </div>
 
                 {/* Submit/Next Button */}
@@ -1284,21 +1234,18 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
                     onClick={() => handleSubmit()}
                     disabled={isSubmitting}
                     className={cn(
-                      "flex items-center gap-2 px-6 py-3 font-bold text-sm shadow-lg transition-all whitespace-nowrap rounded-lg",
+                      "flex items-center gap-2 px-5 py-2.5 font-bold text-xs md:text-sm shadow-lg transition-all whitespace-nowrap rounded-lg md:rounded-lg",
                       isSubmitting 
                         ? "bg-gray-400 cursor-not-allowed" 
                         : "bg-black text-white hover:bg-gray-800"
                     )}
                   >
                     {isSubmitting ? (
-                      <>
-                        <span className="animate-spin">⌛</span>
-                        Saving to Sheets...
-                      </>
+                      <span className="animate-spin">⌛</span>
                     ) : (
                       <>
-                        Submit Test
-                        <Send className="w-4 h-4" />
+                        Submit
+                        <Send className="w-3.5 h-3.5" />
                       </>
                     )}
                   </button>
@@ -1308,12 +1255,18 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
                       setCurrentQuestionIndex((prev) => prev + 1);
                     }}
                     disabled={isSubmitting}
-                    className="flex items-center gap-2 px-6 py-3 bg-black text-white font-bold text-sm shadow-lg hover:bg-gray-800 transition-all whitespace-nowrap rounded-lg"
+                    className="flex items-center gap-2 px-6 py-3 bg-black text-white font-bold text-sm shadow-xl hover:bg-gray-800 transition-all whitespace-nowrap rounded-xl"
                   >
-                    Next Question
+                    Next
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 )}
+              </div>
+
+              <div className="mb-8">
+                <h3 className="text-3xl md:text-3xl font-bold text-black leading-[1.15] tracking-tight">
+                  {currentQuestion.question}
+                </h3>
               </div>
 
               {/* Options Grid */}

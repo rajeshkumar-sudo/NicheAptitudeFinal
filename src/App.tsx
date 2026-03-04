@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { RegistrationForm } from './components/RegistrationForm';
 import { AptitudeTest } from './components/AptitudeTest';
 import { ResultView } from './components/ResultView';
-import { UserData, AppState, Question } from './types';
+import { UserData, AppState, Question, TestStats } from './types';
 import { sendTestResults } from './services/emailService';
 import { AlertTriangle } from 'lucide-react';
 import { cn } from './utils';
@@ -53,6 +53,10 @@ export default function App() {
     const saved = localStorage.getItem('aptitude_last_time_taken');
     return saved ? parseInt(saved, 10) : 0;
   });
+  const [stats, setStats] = useState<TestStats>(() => {
+    const saved = localStorage.getItem('aptitude_last_stats');
+    return saved ? JSON.parse(saved) : { correct: 0, wrong: 0, skipped: 0, partial: 0 };
+  });
   const [isSendingEmail, setIsSendingEmail] = useState(false);
   const [attempts, setAttempts] = useState(() => {
     const saved = localStorage.getItem('aptitude_attempts');
@@ -68,18 +72,19 @@ export default function App() {
     error?: string;
   } | null>(null);
 
-  const handleRegister = (data: UserData) => {
+  const handleRegister = useCallback((data: UserData) => {
     setUser(data);
     localStorage.setItem('aptitude_user_session', JSON.stringify(data));
     setAppState('test');
-  };
+  }, []);
 
-  const handleComplete = async (finalScore: number, totalQuestions: number, testQuestions: Question[], testAnswers: Record<number, string[]>, testTimeTaken: number) => {
+  const handleComplete = useCallback(async (finalScore: number, totalQuestions: number, testQuestions: Question[], testAnswers: Record<number, string[]>, testTimeTaken: number, testStats: TestStats) => {
     setScore(finalScore);
     setTotal(totalQuestions);
     setQuestions(testQuestions);
     setAnswers(testAnswers);
     setTimeTaken(testTimeTaken);
+    setStats(testStats);
     setAppState('result');
     const newAttempts = attempts + 1;
     setAttempts(newAttempts);
@@ -90,6 +95,7 @@ export default function App() {
     localStorage.setItem('aptitude_last_questions', JSON.stringify(testQuestions));
     localStorage.setItem('aptitude_last_answers', JSON.stringify(testAnswers));
     localStorage.setItem('aptitude_last_time_taken', testTimeTaken.toString());
+    localStorage.setItem('aptitude_last_stats', JSON.stringify(testStats));
     localStorage.setItem('aptitude_attempts', newAttempts.toString());
 
     if (user) {
@@ -97,9 +103,9 @@ export default function App() {
       await sendTestResults(user, finalScore, totalQuestions);
       setIsSendingEmail(false);
     }
-  };
+  }, [user, attempts]);
 
-  const handleExit = () => {
+  const handleExit = useCallback(() => {
     // Clear session data
     if (user) {
       localStorage.removeItem(`aptitude_test_${user.rollNumber}`);
@@ -110,6 +116,7 @@ export default function App() {
     localStorage.removeItem('aptitude_last_questions');
     localStorage.removeItem('aptitude_last_answers');
     localStorage.removeItem('aptitude_last_time_taken');
+    localStorage.removeItem('aptitude_last_stats');
     localStorage.removeItem('aptitude_attempts');
     
     // Reset state
@@ -120,12 +127,13 @@ export default function App() {
     setQuestions([]);
     setAnswers({});
     setTimeTaken(0);
+    setStats({ correct: 0, wrong: 0, skipped: 0, partial: 0 });
     setAttempts(0);
     setIsSendingEmail(false);
     setRetakeAlert(null);
-  };
+  }, [user]);
 
-  const handleRestart = () => {
+  const handleRestart = useCallback(() => {
     if (attempts >= 2) {
       setRetakeAlert({
         show: true,
@@ -140,7 +148,7 @@ export default function App() {
       type: 'warning',
       message: "Only one time Retake allowed. Click 'Continue' to proceed to key verification."
     });
-  };
+  }, [attempts]);
 
   const proceedToKeyEntry = () => {
     setRetakeAlert({
@@ -194,13 +202,13 @@ export default function App() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#000_1px,transparent_1px),linear-gradient(to_bottom,#000_1px,transparent_1px)] bg-[size:60px_60px]" />
       </div>
 
-      <nav className="relative z-50 w-full px-8 py-4 flex items-center justify-between max-w-7xl mx-auto border-b border-black/5">
+      <nav className="relative z-50 w-full px-4 md:px-8 py-3 md:py-4 flex items-center justify-between max-w-7xl mx-auto border-b border-black/5">
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          className="flex items-center gap-6"
+          className="flex items-center gap-3 md:gap-6"
         >
-          <div className="h-12 flex items-center justify-center overflow-hidden">
+          <div className="h-10 md:h-12 flex items-center justify-center overflow-hidden">
             <img 
               src="https://ik.imagekit.io/qjw6xz1vo/NICHE%20TECHIES.svg" 
               alt="Niche Techies Logo" 
@@ -215,7 +223,7 @@ export default function App() {
         </motion.div>
       </nav>
 
-      <main className="relative z-10 flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-4 py-4">
+      <main className="relative z-10 flex flex-col items-center justify-start md:justify-center min-h-[calc(100vh-120px)] px-0 md:px-4 py-4">
         <AnimatePresence>
           {retakeAlert?.show && (
             <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
@@ -355,6 +363,7 @@ export default function App() {
               questions={questions}
               answers={answers}
               timeTaken={timeTaken}
+              stats={stats}
               onRestart={handleRestart}
               onExit={handleExit}
               attempts={attempts}
