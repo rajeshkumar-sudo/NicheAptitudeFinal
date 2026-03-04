@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { Trophy, Clock, User, Hash, Timer, LogOut, RefreshCcw, BarChart as BarChartIcon } from 'lucide-react';
+import { Trophy, Clock, User, Hash, Timer, LogOut, RefreshCcw } from 'lucide-react';
 import { UserData, Question, TestStats } from '../types';
 import { cn } from '../utils';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 interface ResultViewProps {
   user: UserData;
@@ -19,20 +18,11 @@ interface ResultViewProps {
 }
 
 export const ResultView: React.FC<ResultViewProps> = ({ user, score, total, questions, answers, timeTaken, stats, onRestart, onExit, attempts }) => {
-  const percentage = (score / total) * 100;
-
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
     return `${mins}m ${secs}s`;
   };
-
-  const chartData = [
-    { name: 'Correct', value: stats.correct, color: '#22c55e' },
-    { name: 'Partial', value: stats.partial, color: '#eab308' },
-    { name: 'Wrong', value: stats.wrong, color: '#ef4444' },
-    { name: 'Skipped', value: stats.skipped, color: '#94a3b8' },
-  ];
 
   return (
     <motion.div
@@ -55,56 +45,6 @@ export const ResultView: React.FC<ResultViewProps> = ({ user, score, total, ques
           <p className="text-white/40 text-sm font-medium mb-10 tracking-tight max-w-md">
             Your evaluation session has been completed and saved securely in our system. Our technical team will evaluate and let you know.
           </p>
-
-          {/* Stats Grid */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 w-full mb-10">
-            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-              <div className="text-3xl font-bold text-green-400">{stats.correct}</div>
-              <div className="text-[10px] font-bold tracking-widest text-white/30 uppercase mt-1">Correct</div>
-            </div>
-            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-              <div className="text-3xl font-bold text-yellow-400">{stats.partial}</div>
-              <div className="text-[10px] font-bold tracking-widest text-white/30 uppercase mt-1">Partial</div>
-            </div>
-            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-              <div className="text-3xl font-bold text-red-400">{stats.wrong}</div>
-              <div className="text-[10px] font-bold tracking-widest text-white/30 uppercase mt-1">Wrong</div>
-            </div>
-            <div className="bg-white/5 p-4 rounded-xl border border-white/10">
-              <div className="text-3xl font-bold text-zinc-400">{stats.skipped}</div>
-              <div className="text-[10px] font-bold tracking-widest text-white/30 uppercase mt-1">Skipped</div>
-            </div>
-          </div>
-
-          {/* Visual Chart */}
-          <div className="w-full h-64 bg-white/5 p-6 rounded-2xl border border-white/10 mb-10">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />
-                <XAxis 
-                  dataKey="name" 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{ fill: '#ffffff40', fontSize: 10, fontWeight: 600 }}
-                  dy={10}
-                />
-                <YAxis 
-                  axisLine={false} 
-                  tickLine={false} 
-                  tick={{ fill: '#ffffff40', fontSize: 10, fontWeight: 600 }}
-                />
-                <Tooltip 
-                  cursor={{ fill: '#ffffff05' }}
-                  contentStyle={{ backgroundColor: '#18181b', border: '1px solid #ffffff10', borderRadius: '8px', fontSize: '12px' }}
-                />
-                <Bar dataKey="value" radius={[4, 4, 0, 0]} barSize={40}>
-                  {chartData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full mb-10">
             <div className="flex flex-col gap-2">
