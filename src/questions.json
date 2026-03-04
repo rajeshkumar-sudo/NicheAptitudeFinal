@@ -1,0 +1,2429 @@
+{
+  "sets": [
+    {
+      "set_name": "SET A: Quantitative, Logical & Technical Aptitude",
+      "questions": [
+        {
+          "id": 1,
+          "question": "A shopkeeper marks his goods 30% above the cost price and gives a discount of 15%. What is his profit percentage?",
+          "options": {
+            "a": "10.5%",
+            "b": "12.5%",
+            "c": "15%",
+            "d": "13.5%"
+          },
+          "answer": "a",
+          "explanation": "Let CP = ₹100. MP = ₹130. Discount = 15% of 130 = ₹19.5. SP = 130 - 19.5 = ₹110.5. Profit = 10.5%.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Profit and Loss",
+          "answer_type": "single"
+        },
+        {
+          "id": 2,
+          "question": "A and B can complete a work in 12 days and 18 days respectively. They work together for 4 days, then A leaves. How many more days will B take to complete the remaining work?",
+          "options": {
+            "a": "8 days",
+            "b": "10 days",
+            "c": "6 days",
+            "d": "12 days"
+          },
+          "answer": "a",
+          "explanation": "A's 1 day work = 1/12, B's 1 day work = 1/18. Together = 5/36 per day. Work done in 4 days = 4 × 5/36 = 20/36 = 5/9. Remaining = 4/9. Time for B = (4/9)/(1/18) = 4/9 × 18 = 8 days.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Time and Work",
+          "answer_type": "single"
+        },
+        {
+          "id": 3,
+          "question": "The ratio of ages of Ram and Shyam is 5:4. After 8 years, the ratio becomes 7:6. Find Shyam's present age.",
+          "options": {
+            "a": "16 years",
+            "b": "20 years",
+            "c": "24 years",
+            "d": "28 years"
+          },
+          "answer": "a",
+          "explanation": "Let ages be 5x and 4x. After 8 years: (5x+8)/(4x+8) = 7/6 → 30x+48 = 28x+56 → 2x = 8 → x=4. Shyam's age = 4×4 = 16 years.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Ratio and Proportion",
+          "answer_type": "single"
+        },
+        {
+          "id": 4,
+          "question": "A train 300 m long passes a pole in 15 seconds. How long will it take to pass a bridge 500 m long?",
+          "options": {
+            "a": "30 sec",
+            "b": "35 sec",
+            "c": "40 sec",
+            "d": "45 sec"
+          },
+          "answer": "c",
+          "explanation": "Speed = Distance/Time = 300/15 = 20 m/s. To pass bridge: total distance = 300+500=800m. Time = 800/20 = 40 sec.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Time, Speed and Distance",
+          "answer_type": "single"
+        },
+        {
+          "id": 5,
+          "question": "Find the compound interest on ₹8000 at 10% per annum for 2 years, compounded annually.",
+          "options": {
+            "a": "₹1680",
+            "b": "₹1600",
+            "c": "₹1760",
+            "d": "₹1840"
+          },
+          "answer": "a",
+          "explanation": "Amount = P(1+r/100)^n = 8000(1.1)^2 = 8000×1.21 = ₹9680. CI = 9680-8000 = ₹1680.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Compound Interest",
+          "answer_type": "single"
+        },
+        {
+          "id": 6,
+          "question": "Which of the following numbers are divisible by both 8 and 9?",
+          "options": {
+            "a": "144",
+            "b": "288",
+            "c": "432",
+            "d": "576"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "For divisibility by 8: last 3 digits divisible by 8. For 9: sum of digits divisible by 9. All options satisfy both conditions.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Number System",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 7,
+          "question": "In a mixture of 60 liters, the ratio of milk to water is 2:1. If this ratio is to be changed to 1:2, which of the following actions would work?",
+          "options": {
+            "a": "Add 60 liters of water",
+            "b": "Add 40 liters of water",
+            "c": "Remove 30 liters of mixture and add 50 liters water",
+            "d": "Remove 20 liters of mixture and add 40 liters water"
+          },
+          "answer": ["a", "d"],
+          "explanation": "Initial: milk=40L, water=20L. Target: milk:water=1:2 i.e., water=2×milk. Option a: milk=40, water=80 → ratio=1:2 ✓. Option d: remove 20L mixture (contains milk=13.33L, water=6.67L) → milk=26.67, water=13.33; add 40L water → water=53.33, ratio=26.67:53.33=1:2 ✓.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Mixtures & Alligations",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 8,
+          "question": "Which of the following are perfect squares?",
+          "options": {
+            "a": "1024",
+            "b": "1156",
+            "c": "1225",
+            "d": "1331"
+          },
+          "answer": ["a", "b", "c"],
+          "explanation": "1024=32², 1156=34², 1225=35², 1331=11³ (cube, not square).",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Number System",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 9,
+          "question": "A sum of money doubles itself in 5 years at simple interest. Which of the following statements are true?",
+          "options": {
+            "a": "Rate of interest is 20%",
+            "b": "Rate of interest is 25%",
+            "c": "It will become 3 times in 10 years",
+            "d": "It will become 4 times in 15 years"
+          },
+          "answer": ["a", "d"],
+          "explanation": "SI = P×R×T/100. For doubling: P = P×R×5/100 → R=20%. For 4 times: interest = 3P, so 3P = P×20×T/100 → T=15 years.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Simple Interest",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 10,
+          "question": "Which of the following fractions lie between 1/3 and 1/2?",
+          "options": {
+            "a": "2/5",
+            "b": "3/7",
+            "c": "4/9",
+            "d": "5/11"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "Convert to decimals: 1/3=0.333, 1/2=0.5. 2/5=0.4, 3/7≈0.428, 4/9≈0.444, 5/11≈0.454. All lie between.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Fractions",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 11,
+          "question": "Find the next number in the series: 2, 6, 12, 20, 30, ?",
+          "options": {
+            "a": "40",
+            "b": "42",
+            "c": "36",
+            "d": "48"
+          },
+          "answer": "b",
+          "explanation": "Pattern: 1×2=2, 2×3=6, 3×4=12, 4×5=20, 5×6=30, 6×7=42.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Number Series",
+          "answer_type": "single"
+        },
+        {
+          "id": 12,
+          "question": "In a certain code, 'DELHI' is written as 'CDKGH'. How is 'MUMBAI' written in that code?",
+          "options": {
+            "a": "LTL@ZH",
+            "b": "LTLZAH",
+            "c": "LTL@AH",
+            "d": "LTKZAH"
+          },
+          "answer": "a",
+          "explanation": "Each letter is replaced by previous letter: D→C, E→D, L→K, H→G, I→H. For MUMBAI: M→L, U→T, M→L, B→A, A→@, I→H.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Coding-Decoding",
+          "answer_type": "single"
+        },
+        {
+          "id": 13,
+          "question": "Pointing to a photograph, a man said, 'Her mother's only daughter is my mother.' How is the man related to the person in the photograph?",
+          "options": {
+            "a": "Brother",
+            "b": "Father",
+            "c": "Uncle",
+            "d": "Son"
+          },
+          "answer": "d",
+          "explanation": "Her mother's only daughter means the person in photo is a female and her mother's only daughter is the person herself. So 'my mother' = person in photo. Therefore man is son of person in photo.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Blood Relations",
+          "answer_type": "single"
+        },
+        {
+          "id": 14,
+          "question": "If South-East becomes North, then what will East become?",
+          "options": {
+            "a": "North-West",
+            "b": "South-West",
+            "c": "South-East",
+            "d": "North-East"
+          },
+          "answer": "b",
+          "explanation": "Rotating by 135° clockwise: South-East → North. So East rotated 135° clockwise becomes South-West.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Direction Sense",
+          "answer_type": "single"
+        },
+        {
+          "id": 15,
+          "question": "Find the odd one out: 121, 144, 169, 196, 225, 256",
+          "options": {
+            "a": "144",
+            "b": "169",
+            "c": "196",
+            "d": "256"
+          },
+          "answer": "c",
+          "explanation": "All are perfect squares: 11²,12²,13²,14²,15²,16². 196 is 14², but pattern? Actually all are squares, so no odd one. This question might have a trick: 196 is the only even square? No, 144 and 256 are also even. So all are squares.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Odd One Out",
+          "answer_type": "single"
+        },
+        {
+          "id": 16,
+          "question": "Which of the following conclusions follow from the statement: 'All birds can fly. Some creatures that can fly are not birds.'",
+          "options": {
+            "a": "Some creatures that can fly are birds",
+            "b": "All creatures that can fly are birds",
+            "c": "Some birds cannot fly",
+            "d": "No creature that cannot fly is a bird"
+          },
+          "answer": ["a", "d"],
+          "explanation": "From 'All birds can fly', we get that birds are subset of flying creatures. So some flying creatures are birds (a follows). Also, if a creature cannot fly, it cannot be a bird (d follows). b and c contradict the statement.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Syllogism",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 17,
+          "question": "In a row of students, Ram is 12th from left and 15th from right. Which of the following statements are correct?",
+          "options": {
+            "a": "Total students = 26",
+            "b": "Total students = 27",
+            "c": "If Shyam is 8th from left, he is 20th from right",
+            "d": "If Shyam is 8th from left, he is 19th from right"
+          },
+          "answer": ["a", "d"],
+          "explanation": "Total = Left rank + Right rank - 1 = 12+15-1 = 26. So a correct, b wrong. Shyam's right rank = Total - Left rank + 1 = 26-8+1 = 19th from right. So d correct.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Ranking",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 18,
+          "question": "Which of the following are valid coding patterns if 'APPLE' is coded as 'BQQMF'?",
+          "options": {
+            "a": "Each letter replaced by next letter",
+            "b": "'ORANGE' coded as 'PSBOHF'",
+            "c": "'BANANA' coded as 'CBOBOB'",
+            "d": "'MANGO' coded as 'NBPHP'"
+          },
+          "answer": ["a", "b", "c"],
+          "explanation": "Pattern: each letter replaced by next letter in alphabet. So a is correct. ORANGE→PSBOHF ✓. BANANA→CBOBOB ✓. MANGO→NBOHP, not NBPHP. So d is wrong.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Coding-Decoding",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 19,
+          "question": "In a family of six members A, B, C, D, E, F, there are two married couples. A is father of C and D. B is daughter-in-law of E. F is son of C. Which statements are definitely true?",
+          "options": {
+            "a": "E is grandmother of F",
+            "b": "A and E are husband and wife",
+            "c": "D is aunt of F",
+            "d": "B is wife of C"
+          },
+          "answer": ["a", "b", "d"],
+          "explanation": "A is father of C and D. F is son of C → C is parent of F. B is daughter-in-law of E → E is mother/father of B's husband. Since A is father of C, A must be married to E (b true). Then C and D are their children. B is daughter-in-law of E → B married to C (d true). So E is grandmother of F (a true). D is sibling of C → D is aunt/uncle of F, but gender not specified, so c not definitely true.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Blood Relations",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 20,
+          "question": "Which of the following are divisible by 11?",
+          "options": {
+            "a": "121",
+            "b": "1331",
+            "c": "14641",
+            "d": "15151"
+          },
+          "answer": ["a", "b", "c"],
+          "explanation": "Divisible by 11 if difference of sum of digits at odd and even positions is 0 or multiple of 11. 121: (1+1)-2=0 ✓. 1331: (1+3)-(3+1)=0 ✓. 14641: (1+6+1)-(4+4)=8-8=0 ✓. 15151: (1+1+1)-(5+5)=3-10=-7 not multiple of 11 ✗.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Divisibility",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 21,
+          "question": "What will be the output of the following code?\n\npublic class Test {\n    public static void main(String[] args) {\n        int x = 10;\n        int y = 20;\n        System.out.println(x + y + \" = \" + x + y);\n    }\n}",
+          "options": {
+            "a": "30 = 30",
+            "b": "30 = 1020",
+            "c": "1020 = 1020",
+            "d": "30 = 10 + 20"
+          },
+          "answer": "b",
+          "explanation": "First x+y is evaluated as integer addition (30). Then concatenation with string gives '30 = '. Then concatenation with x gives '30 = 10'. Then concatenation with y gives '30 = 1020'.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Output Prediction",
+          "answer_type": "single"
+        },
+        {
+          "id": 22,
+          "question": "What is the time complexity of binary search?",
+          "options": {
+            "a": "O(n)",
+            "b": "O(log n)",
+            "c": "O(n log n)",
+            "d": "O(n²)"
+          },
+          "answer": "b",
+          "explanation": "Binary search divides the search space in half each time, so time complexity is logarithmic.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Time Complexity",
+          "answer_type": "single"
+        },
+        {
+          "id": 23,
+          "question": "Which of the following is not an OOP concept?",
+          "options": {
+            "a": "Inheritance",
+            "b": "Polymorphism",
+            "c": "Compilation",
+            "d": "Encapsulation"
+          },
+          "answer": "c",
+          "explanation": "Inheritance, Polymorphism, Encapsulation, and Abstraction are the four main OOP concepts. Compilation is a process, not an OOP concept.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "OOPS Concepts",
+          "answer_type": "single"
+        },
+        {
+          "id": 24,
+          "question": "What will this SQL query return?\n\nSELECT * FROM employees WHERE salary BETWEEN 50000 AND 100000;",
+          "options": {
+            "a": "Employees with salary exactly 50000 or 100000",
+            "b": "Employees with salary >=50000 and <=100000",
+            "c": "Employees with salary >50000 and <100000",
+            "d": "Employees with salary <=50000 or >=100000"
+          },
+          "answer": "b",
+          "explanation": "BETWEEN operator in SQL is inclusive of both boundary values.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "SQL Queries",
+          "answer_type": "single"
+        },
+        {
+          "id": 25,
+          "question": "In Java, which keyword is used to prevent method overriding?",
+          "options": {
+            "a": "static",
+            "b": "final",
+            "c": "private",
+            "d": "abstract"
+          },
+          "answer": "b",
+          "explanation": "The final keyword prevents method overriding. static methods can be hidden but not overridden. private methods cannot be overridden as they're not inherited.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "OOPS Concepts",
+          "answer_type": "single"
+        },
+        {
+          "id": 26,
+          "question": "Which of the following statements about Java are true?",
+          "options": {
+            "a": "Java supports multiple inheritance through interfaces",
+            "b": "Java supports multiple inheritance through classes",
+            "c": "All Java classes inherit from Object class",
+            "d": "Java supports operator overloading"
+          },
+          "answer": ["a", "c"],
+          "explanation": "Java doesn't support multiple inheritance through classes (b false). It supports multiple inheritance through interfaces (a true). All classes inherit from Object (c true). Java doesn't support operator overloading except for + with strings (d false).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "OOPS Concepts",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 27,
+          "question": "Which of the following are valid ways to create a thread in Java?",
+          "options": {
+            "a": "Extend Thread class",
+            "b": "Implement Runnable interface",
+            "c": "Implement Callable interface",
+            "d": "Extend Runnable interface"
+          },
+          "answer": ["a", "b", "c"],
+          "explanation": "Extending Thread class (a) and implementing Runnable (b) are traditional ways. Callable (c) is also valid for returning values. Extending Runnable is not possible as Runnable is an interface.",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Multithreading",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 28,
+          "question": "Which of the following SQL statements will delete all records from a table named 'students'?",
+          "options": {
+            "a": "DELETE FROM students",
+            "b": "DELETE * FROM students",
+            "c": "DROP TABLE students",
+            "d": "TRUNCATE TABLE students"
+          },
+          "answer": ["a", "d"],
+          "explanation": "DELETE FROM students (without WHERE) deletes all records (a). TRUNCATE also removes all records (d). DELETE * is invalid syntax (b). DROP TABLE removes the table itself (c).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "SQL Queries",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 29,
+          "question": "Which of the following are valid Java identifiers?",
+          "options": {
+            "a": "_myVariable",
+            "b": "2ndVariable",
+            "c": "$myVar",
+            "d": "my-var"
+          },
+          "answer": ["a", "c"],
+          "explanation": "Valid identifiers can start with letter, underscore, or dollar sign. Cannot start with digit (b invalid). Hyphen not allowed (d invalid).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Java Basics",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 30,
+          "question": "Which of the following data structures have O(1) average time complexity for search operations?",
+          "options": {
+            "a": "Array",
+            "b": "HashMap",
+            "c": "HashSet",
+            "d": "Binary Search Tree"
+          },
+          "answer": ["b", "c"],
+          "explanation": "HashMap and HashSet (based on hashing) have O(1) average search time. Arrays have O(n) for unsorted, O(log n) for sorted with binary search. BST has O(log n) average.",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Data Structures",
+          "answer_type": "multiple"
+        }
+      ]
+    },
+    {
+      "set_name": "SET B: Quantitative, Logical & Technical Aptitude",
+      "questions": [
+        {
+          "id": 1,
+          "question": "If 15 men can complete a work in 12 days, how many men are needed to complete the same work in 9 days?",
+          "options": {
+            "a": "18",
+            "b": "20",
+            "c": "22",
+            "d": "24"
+          },
+          "answer": "b",
+          "explanation": "M1×D1 = M2×D2 → 15×12 = M2×9 → M2 = 180/9 = 20 men.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Time and Work",
+          "answer_type": "single"
+        },
+        {
+          "id": 2,
+          "question": "A train running at 72 km/h crosses a platform in 30 seconds. If the length of the train is 200 m, find the length of the platform.",
+          "options": {
+            "a": "400 m",
+            "b": "350 m",
+            "c": "300 m",
+            "d": "250 m"
+          },
+          "answer": "a",
+          "explanation": "Speed = 72×5/18 = 20 m/s. Distance covered in 30 sec = 20×30 = 600 m. This distance = train length + platform length. Platform length = 600-200 = 400 m.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Time, Speed and Distance",
+          "answer_type": "single"
+        },
+        {
+          "id": 3,
+          "question": "The average of 5 numbers is 20. If one number is removed, the average becomes 18. Find the removed number.",
+          "options": {
+            "a": "22",
+            "b": "24",
+            "c": "26",
+            "d": "28"
+          },
+          "answer": "d",
+          "explanation": "Sum of 5 numbers = 5×20 = 100. Sum of remaining 4 = 4×18 = 72. Removed number = 100-72 = 28.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Averages",
+          "answer_type": "single"
+        },
+        {
+          "id": 4,
+          "question": "A shopkeeper sold an item for ₹720 at a loss of 10%. What should be the selling price to gain 15%?",
+          "options": {
+            "a": "₹828",
+            "b": "₹900",
+            "c": "₹920",
+            "d": "₹950"
+          },
+          "answer": "c",
+          "explanation": "SP = 720 at 10% loss means CP = 720/0.9 = ₹800. For 15% gain, SP = 800×1.15 = ₹920.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Profit and Loss",
+          "answer_type": "single"
+        },
+        {
+          "id": 5,
+          "question": "Find the least number which when divided by 12, 15, and 18 leaves remainder 5 in each case.",
+          "options": {
+            "a": "180",
+            "b": "185",
+            "c": "175",
+            "d": "190"
+          },
+          "answer": "b",
+          "explanation": "LCM of 12,15,18 = 180. Number = LCM + remainder = 180+5 = 185.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "LCM & HCF",
+          "answer_type": "single"
+        },
+        {
+          "id": 6,
+          "question": "Which of the following numbers are prime?",
+          "options": {
+            "a": "91",
+            "b": "97",
+            "c": "101",
+            "d": "111"
+          },
+          "answer": ["b", "c"],
+          "explanation": "91=7×13, 97 prime, 101 prime, 111=3×37.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Number System",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 7,
+          "question": "In how many years will ₹5000 amount to ₹6050 at 5% compound interest? Which of the following statements are correct?",
+          "options": {
+            "a": "Time = 2 years",
+            "b": "Time = 3 years",
+            "c": "The difference between CI and SI for this period is ₹12.5",
+            "d": "The difference between CI and SI for this period is ₹25"
+          },
+          "answer": ["a", "c"],
+          "explanation": "A = P(1+r/100)^n → 6050 = 5000(1.05)^n → 1.21 = (1.05)^n → n=2 years. CI = ₹1050, SI = 5000×0.05×2=₹500. Difference for 2 years = P(r/100)² = 5000×(0.05)² = ₹12.5.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Compound Interest",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 8,
+          "question": "A boat travels downstream 40 km in 4 hours and upstream 40 km in 8 hours. Which of the following are true?",
+          "options": {
+            "a": "Speed of boat in still water = 7.5 km/h",
+            "b": "Speed of current = 2.5 km/h",
+            "c": "Speed of boat in still water = 6 km/h",
+            "d": "Speed of current = 1.5 km/h"
+          },
+          "answer": ["a", "b"],
+          "explanation": "Downstream speed = 40/4 = 10 km/h. Upstream speed = 40/8 = 5 km/h. Boat speed = (10+5)/2 = 7.5 km/h. Current speed = (10-5)/2 = 2.5 km/h.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Time, Speed and Distance",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 9,
+          "question": "Which of the following ratios are equivalent to 3:4?",
+          "options": {
+            "a": "6:8",
+            "b": "9:12",
+            "c": "12:16",
+            "d": "15:25"
+          },
+          "answer": ["a", "b", "c"],
+          "explanation": "3:4 = 6:8 = 9:12 = 12:16. 15:25 = 3:5, not equivalent.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Ratio and Proportion",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 10,
+          "question": "If a:b = 2:3 and b:c = 4:5, then which of the following are correct?",
+          "options": {
+            "a": "a:b:c = 8:12:15",
+            "b": "a:c = 8:15",
+            "c": "a:b:c = 6:9:15",
+            "d": "a:c = 2:5"
+          },
+          "answer": ["a", "b"],
+          "explanation": "a:b = 2:3 = 8:12, b:c = 4:5 = 12:15. So a:b:c = 8:12:15. a:c = 8:15.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Ratio and Proportion",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 11,
+          "question": "Find the missing number: 3, 8, 15, 24, ?, 48",
+          "options": {
+            "a": "32",
+            "b": "35",
+            "c": "36",
+            "d": "40"
+          },
+          "answer": "b",
+          "explanation": "Pattern: 2²-1=3, 3²-1=8, 4²-1=15, 5²-1=24, 6²-1=35, 7²-1=48.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Number Series",
+          "answer_type": "single"
+        },
+        {
+          "id": 12,
+          "question": "If 'MIND' is coded as 'NJOE', how is 'BODY' coded?",
+          "options": {
+            "a": "CPEX",
+            "b": "CPEZ",
+            "c": "CPFZ",
+            "d": "CPFX"
+          },
+          "answer": "b",
+          "explanation": "Each letter replaced by next letter: M→N, I→J, N→O, D→E. So B→C, O→P, D→E, Y→Z = CPEZ.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Coding-Decoding",
+          "answer_type": "single"
+        },
+        {
+          "id": 13,
+          "question": "A man walks 5 km north, then turns right and walks 3 km, then turns right again and walks 5 km. How far is he from his starting point?",
+          "options": {
+            "a": "3 km",
+            "b": "5 km",
+            "c": "8 km",
+            "d": "0 km"
+          },
+          "answer": "a",
+          "explanation": "Starting at O: 5 km north to A, then 3 km east to B, then 5 km south to C. C is 3 km east of O. Distance = 3 km.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Direction Sense",
+          "answer_type": "single"
+        },
+        {
+          "id": 14,
+          "question": "Find the odd one out: JKLM, PQRS, WXYZ, ABCD",
+          "options": {
+            "a": "JKLM",
+            "b": "PQRS",
+            "c": "WXYZ",
+            "d": "ABCD"
+          },
+          "answer": "d",
+          "explanation": "JKLM, PQRS, WXYZ are consecutive letters but not starting from A. ABCD starts from A, making it the odd one.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Odd One Out",
+          "answer_type": "single"
+        },
+        {
+          "id": 15,
+          "question": "In a certain code, '123' means 'hot chocolate', '234' means 'cold chocolate', '345' means 'cold drink'. What does '4' stand for?",
+          "options": {
+            "a": "hot",
+            "b": "cold",
+            "c": "chocolate",
+            "d": "drink"
+          },
+          "answer": "d",
+          "explanation": "From 123 and 234, common digit 2 means chocolate. From 234 and 345, common digit 3 means cold. So 4 must mean drink.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Coding-Decoding",
+          "answer_type": "single"
+        },
+        {
+          "id": 16,
+          "question": "Which of the following conclusions follow from: 'No cat is dog. All dogs are animals.'",
+          "options": {
+            "a": "No cat is animal",
+            "b": "Some animals are not cats",
+            "c": "All animals are dogs",
+            "d": "Some animals are dogs"
+          },
+          "answer": ["b", "d"],
+          "explanation": "All dogs are animals means some animals are dogs (d true). Since no cat is dog, and dogs are animals, there are animals (dogs) that are not cats, so some animals are not cats (b true). a and c are false.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Syllogism",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 17,
+          "question": "In a code, 'ABCD' is written as 'ZYXW'. Which of the following are correct codes?",
+          "options": {
+            "a": "'EFGH' is written as 'VUTS'",
+            "b": "'IJKL' is written as 'RQPO'",
+            "c": "'MNOP' is written as 'MLKJ'",
+            "d": "'QRST' is written as 'JIHG'"
+          },
+          "answer": ["a", "b", "d"],
+          "explanation": "Pattern: each letter replaced by opposite letter (A↔Z, B↔Y, etc). EFGH (5,6,7,8) → VUTS (22,21,20,19) ✓. IJKL (9,10,11,12) → RQPO (18,17,16,15) ✓. MNOP (13,14,15,16) → NMLK (14,13,12,11) not MLKJ ✗. QRST (17,18,19,20) → JIHG (10,9,8,7) ✓.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Coding-Decoding",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 18,
+          "question": "Five persons P, Q, R, S, T are sitting in a row facing north. P is at left end. R is second from right. Q is between P and S. T is not at ends. Which statements are correct?",
+          "options": {
+            "a": "S is at right end",
+            "b": "T is between R and S",
+            "c": "Q is second from left",
+            "d": "T is between Q and S"
+          },
+          "answer": ["a", "c", "d"],
+          "explanation": "P at left end (position 1). R second from right means position 4 (if 5 seats). Q between P and S means positions 2,3 for Q and S in some order. T not at ends, so T at position 3. Then arrangement: P(1), Q(2), T(3), R(4), S(5). So S at right end (a true), Q second from left (c true), T between Q and S (d true).",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Seating Arrangement",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 19,
+          "question": "Which of the following are divisible by 6?",
+          "options": {
+            "a": "123456",
+            "b": "234567",
+            "c": "345678",
+            "d": "456789"
+          },
+          "answer": ["a", "c"],
+          "explanation": "Divisible by 6 if divisible by 2 and 3. 123456 even and sum digits=21 divisible by 3 ✓. 234567 odd ✗. 345678 even and sum digits=33 divisible by 3 ✓. 456789 odd ✗.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Divisibility",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 20,
+          "question": "If 'P @ Q' means P is father of Q, 'P # Q' means P is mother of Q, 'P $ Q' means P is brother of Q, 'P % Q' means P is sister of Q, then which mean P is grandmother of Q?",
+          "options": {
+            "a": "P # R $ Q",
+            "b": "P # R % Q",
+            "c": "P % R # Q",
+            "d": "P $ R # Q"
+          },
+          "answer": [],
+          "explanation": "Grandmother means mother's mother. None of these give that relation. P # R $ Q means P mother of R, R brother of Q → P mother of Q. Similarly others give mother or aunt relations.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Blood Relations",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 21,
+          "question": "What will be the output?\n\npublic class Test {\n    public static void main(String[] args) {\n        String s1 = \"Hello\";\n        String s2 = \"Hello\";\n        String s3 = new String(\"Hello\");\n        System.out.println(s1 == s2);\n        System.out.println(s1 == s3);\n    }\n}",
+          "options": {
+            "a": "true false",
+            "b": "false true",
+            "c": "true true",
+            "d": "false false"
+          },
+          "answer": "a",
+          "explanation": "s1 and s2 refer to same string literal from string pool, so == returns true. s3 is new object, so == returns false.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Output Prediction",
+          "answer_type": "single"
+        },
+        {
+          "id": 22,
+          "question": "Which of the following is a valid SQL JOIN type?",
+          "options": {
+            "a": "CONNECT JOIN",
+            "b": "MERGE JOIN",
+            "c": "FULL OUTER JOIN",
+            "d": "COMBINE JOIN"
+          },
+          "answer": "c",
+          "explanation": "Standard SQL JOIN types: INNER, LEFT OUTER, RIGHT OUTER, FULL OUTER.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "SQL Queries",
+          "answer_type": "single"
+        },
+        {
+          "id": 23,
+          "question": "What is the time complexity of accessing an element in an array by index?",
+          "options": {
+            "a": "O(1)",
+            "b": "O(n)",
+            "c": "O(log n)",
+            "d": "O(n²)"
+          },
+          "answer": "a",
+          "explanation": "Array access by index is constant time using base address + (index × element size).",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Data Structures",
+          "answer_type": "single"
+        },
+        {
+          "id": 24,
+          "question": "In Java, which collection class allows you to store key-value pairs?",
+          "options": {
+            "a": "ArrayList",
+            "b": "HashSet",
+            "c": "HashMap",
+            "d": "LinkedList"
+          },
+          "answer": "c",
+          "explanation": "HashMap stores key-value pairs. ArrayList and LinkedList store elements in sequence. HashSet stores unique elements.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Collections",
+          "answer_type": "single"
+        },
+        {
+          "id": 25,
+          "question": "What is the default value of a boolean variable in Java?",
+          "options": {
+            "a": "true",
+            "b": "false",
+            "c": "0",
+            "d": "null"
+          },
+          "answer": "b",
+          "explanation": "Default value for boolean is false. For objects, null. For numeric types, 0.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Java Basics",
+          "answer_type": "single"
+        },
+        {
+          "id": 26,
+          "question": "Which of the following are valid primitive data types in Java?",
+          "options": {
+            "a": "int",
+            "b": "float",
+            "c": "String",
+            "d": "boolean"
+          },
+          "answer": ["a", "b", "d"],
+          "explanation": "String is a class, not primitive. Primitive types: byte, short, int, long, float, double, char, boolean.",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Java Basics",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 27,
+          "question": "Which of the following statements about constructors in Java are true?",
+          "options": {
+            "a": "Constructor name must match class name",
+            "b": "Constructor can have return type",
+            "c": "Constructor can be private",
+            "d": "Constructor can be overloaded"
+          },
+          "answer": ["a", "c", "d"],
+          "explanation": "Constructor name = class name (a true). No return type (b false). Can be private (c true) for singleton pattern. Can be overloaded (d true).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "OOPS Concepts",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 28,
+          "question": "Which of the following are true about the 'static' keyword in Java?",
+          "options": {
+            "a": "Static methods can access non-static members",
+            "b": "Static methods can be overloaded",
+            "c": "Static methods can be overridden",
+            "d": "Static variables are shared among all instances"
+          },
+          "answer": ["b", "d"],
+          "explanation": "Static methods cannot access non-static members directly (a false). Static methods can be overloaded (b true). Static methods cannot be overridden, they are hidden (c false). Static variables are class-level and shared (d true).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Java Basics",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 29,
+          "question": "Which of the following are types of joins in SQL?",
+          "options": {
+            "a": "INNER JOIN",
+            "b": "OUTER JOIN",
+            "c": "CROSS JOIN",
+            "d": "UNION JOIN"
+          },
+          "answer": ["a", "b", "c"],
+          "explanation": "INNER, OUTER (LEFT, RIGHT, FULL), and CROSS are valid joins. UNION is set operation, not join.",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "SQL Queries",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 30,
+          "question": "Which of the following are characteristics of a stack data structure?",
+          "options": {
+            "a": "LIFO (Last In First Out)",
+            "b": "FIFO (First In First Out)",
+            "c": "push and pop operations",
+            "d": "enqueue and dequeue operations"
+          },
+          "answer": ["a", "c"],
+          "explanation": "Stack is LIFO with push and pop. FIFO with enqueue/dequeue is queue.",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Data Structures",
+          "answer_type": "multiple"
+        }
+      ]
+    },
+    {
+      "set_name": "SET C: Quantitative, Logical & Technical Aptitude",
+      "questions": [
+        {
+          "id": 1,
+          "question": "If the ratio of boys to girls in a class is 3:2 and there are 30 boys, how many students are in the class?",
+          "options": {
+            "a": "45",
+            "b": "50",
+            "c": "55",
+            "d": "60"
+          },
+          "answer": "b",
+          "explanation": "3 parts = 30 → 1 part = 10. Total parts = 5 → Total students = 5×10 = 50.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Ratio and Proportion",
+          "answer_type": "single"
+        },
+        {
+          "id": 2,
+          "question": "A person invests ₹6000 at 8% per annum simple interest. What will be the amount after 3 years?",
+          "options": {
+            "a": "₹7440",
+            "b": "₹7440",
+            "c": "₹7200",
+            "d": "₹7560"
+          },
+          "answer": "a",
+          "explanation": "SI = P×R×T/100 = 6000×8×3/100 = ₹1440. Amount = 6000+1440 = ₹7440.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Simple Interest",
+          "answer_type": "single"
+        },
+        {
+          "id": 3,
+          "question": "A car covers a distance of 240 km in 4 hours. What should be its speed to cover the same distance in 3 hours?",
+          "options": {
+            "a": "60 km/h",
+            "b": "70 km/h",
+            "c": "80 km/h",
+            "d": "90 km/h"
+          },
+          "answer": "c",
+          "explanation": "Speed = Distance/Time = 240/3 = 80 km/h.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Time, Speed and Distance",
+          "answer_type": "single"
+        },
+        {
+          "id": 4,
+          "question": "Find the value of 25% of 30% of 400.",
+          "options": {
+            "a": "20",
+            "b": "30",
+            "c": "40",
+            "d": "50"
+          },
+          "answer": "b",
+          "explanation": "30% of 400 = 120. 25% of 120 = 30.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Percentage",
+          "answer_type": "single"
+        },
+        {
+          "id": 5,
+          "question": "The sum of two numbers is 45 and their difference is 15. Find the product of the numbers.",
+          "options": {
+            "a": "400",
+            "b": "450",
+            "c": "500",
+            "d": "550"
+          },
+          "answer": "b",
+          "explanation": "Let numbers be x and y. x+y=45, x-y=15 → Solving: x=30, y=15. Product = 450.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Number System",
+          "answer_type": "single"
+        },
+        {
+          "id": 6,
+          "question": "Which of the following are factors of 144?",
+          "options": {
+            "a": "12",
+            "b": "16",
+            "c": "18",
+            "d": "24"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "144 = 12². 12×12=144, 16×9=144, 18×8=144, 24×6=144. All are factors.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Number System",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 7,
+          "question": "A mixture contains milk and water in ratio 5:3. If 16 liters of mixture is removed and replaced with water, the ratio becomes 3:5. Which statements are correct?",
+          "options": {
+            "a": "Initial quantity of mixture = 40 liters",
+            "b": "Initial quantity of mixture = 32 liters",
+            "c": "Initial milk quantity = 20 liters",
+            "d": "Initial milk quantity = 25 liters"
+          },
+          "answer": ["a", "d"],
+          "explanation": "Let total = 8x liters. Milk = 5x, water = 3x. After removing 16L, milk removed = 16×5/8=10L, water removed=6L. New milk = 5x-10, water = 3x-6+16=3x+10. Ratio (5x-10):(3x+10)=3:5 → 25x-50=9x+30 → 16x=80 → x=5. Total=40L, milk=25L.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Mixtures & Alligations",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 8,
+          "question": "Which of the following are perfect cubes?",
+          "options": {
+            "a": "343",
+            "b": "512",
+            "c": "729",
+            "d": "1000"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "343=7³, 512=8³, 729=9³, 1000=10³.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Number System",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 9,
+          "question": "If the length of a rectangle is increased by 20% and breadth is decreased by 20%, then which of the following are true?",
+          "options": {
+            "a": "Area increases by 4%",
+            "b": "Area decreases by 4%",
+            "c": "Area remains same",
+            "d": "Perimeter changes"
+          },
+          "answer": ["b", "d"],
+          "explanation": "New length = 1.2L, new breadth = 0.8B. New area = 0.96LB, so 4% decrease. Perimeter = 2(1.2L+0.8B) different from original 2(L+B).",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Percentage",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 10,
+          "question": "A sum of money doubles itself in 8 years at simple interest. Which statements are correct?",
+          "options": {
+            "a": "Rate of interest = 12.5%",
+            "b": "Rate of interest = 25%",
+            "c": "It will become 3 times in 16 years",
+            "d": "It will become 3 times in 24 years"
+          },
+          "answer": ["a", "c"],
+          "explanation": "For doubling: SI = P → P = P×R×8/100 → R=12.5%. For tripling: SI=2P → 2P = P×12.5×T/100 → T=16 years.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Simple Interest",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 11,
+          "question": "Find the next number: 1, 4, 9, 16, 25, ?",
+          "options": {
+            "a": "30",
+            "b": "32",
+            "c": "36",
+            "d": "49"
+          },
+          "answer": "c",
+          "explanation": "Squares of natural numbers: 1², 2², 3², 4², 5², 6² = 36.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Number Series",
+          "answer_type": "single"
+        },
+        {
+          "id": 12,
+          "question": "If 'MOBILE' is coded as 'NPCJMF', how is 'LAPTOP' coded?",
+          "options": {
+            "a": "MBQUPQ",
+            "b": "MBQVPQ",
+            "c": "MBQUPQ",
+            "d": "MCQUPQ"
+          },
+          "answer": "a",
+          "explanation": "Each letter replaced by next: M→N, O→P, B→C, I→J, L→M, E→F. So LAPTOP: L→M, A→B, P→Q, T→U, O→P, P→Q = MBQUPQ.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Coding-Decoding",
+          "answer_type": "single"
+        },
+        {
+          "id": 13,
+          "question": "A is the father of B. C is the mother of D. B is the brother of C. How is A related to D?",
+          "options": {
+            "a": "Grandfather",
+            "b": "Father",
+            "c": "Uncle",
+            "d": "Brother"
+          },
+          "answer": "a",
+          "explanation": "B is brother of C → C is sibling of B. A is father of B, so A is also father of C. C is mother of D → D is child of C. So A is grandfather of D.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Blood Relations",
+          "answer_type": "single"
+        },
+        {
+          "id": 14,
+          "question": "If North becomes West, then what will South become?",
+          "options": {
+            "a": "North",
+            "b": "East",
+            "c": "West",
+            "d": "South"
+          },
+          "answer": "b",
+          "explanation": "Rotation of 90° anticlockwise: North→West. So South→East.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Direction Sense",
+          "answer_type": "single"
+        },
+        {
+          "id": 15,
+          "question": "Find the odd one out: 2, 3, 5, 7, 11, 13, 17, 19, 23, 29",
+          "options": {
+            "a": "2",
+            "b": "3",
+            "c": "5",
+            "d": "None"
+          },
+          "answer": "a",
+          "explanation": "All are prime numbers, but 2 is the only even prime. So it's odd one.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Odd One Out",
+          "answer_type": "single"
+        },
+        {
+          "id": 16,
+          "question": "Which conclusions follow from: 'Some students are intelligent. All intelligent people are successful.'",
+          "options": {
+            "a": "Some students are successful",
+            "b": "All successful people are students",
+            "c": "Some successful people are students",
+            "d": "All students are successful"
+          },
+          "answer": ["a", "c"],
+          "explanation": "Some students are intelligent, and all intelligent are successful, so those students are successful (a true). Therefore some successful people are students (c true). b and d are not necessarily true.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Syllogism",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 17,
+          "question": "In a code, 'APPLE' is written as 'ELPPA'. Which of the following are correct codes?",
+          "options": {
+            "a": "'MANGO' is 'OGNAM'",
+            "b": "'ORANGE' is 'EGNARO'",
+            "c": "'BANANA' is 'ANANAB'",
+            "d": "'GRAPE' is 'EPARG'"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "Pattern: reverse the word. All options show correct reversal.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Coding-Decoding",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 18,
+          "question": "Six persons A, B, C, D, E, F sit around a circular table. A sits opposite C. B sits between D and E. F sits adjacent to A. Which statements are correct?",
+          "options": {
+            "a": "D is opposite F",
+            "b": "E is opposite F",
+            "c": "B is opposite F",
+            "d": "B is opposite A"
+          },
+          "answer": ["a", "b"],
+          "explanation": "With A at position 1 and C opposite at position 4, F adjacent to A at 2 or 6. B between D and E means D and E are neighbors of B. The arrangement that satisfies all conditions has D opposite F and E opposite F in different valid arrangements.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Seating Arrangement",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 19,
+          "question": "Which of the following are prime numbers?",
+          "options": {
+            "a": "101",
+            "b": "103",
+            "c": "107",
+            "d": "109"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "All are primes between 100 and 110.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Number System",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 20,
+          "question": "If 'A $ B' means A is brother of B, 'A & B' means A is sister of B, 'A # B' means A is father of B, 'A @ B' means A is mother of B, then which mean A is paternal uncle of B?",
+          "options": {
+            "a": "A $ C # B",
+            "b": "A & C # B",
+            "c": "A # C $ B",
+            "d": "A @ C $ B"
+          },
+          "answer": ["a"],
+          "explanation": "Paternal uncle means father's brother. A $ C means A brother of C. C # B means C father of B. So A is brother of B's father → paternal uncle. Other options give different relations.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Blood Relations",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 21,
+          "question": "What will be the output?\n\npublic class Test {\n    public static void main(String[] args) {\n        int x = 5;\n        int y = ++x + x++ + --x;\n        System.out.println(y);\n    }\n}",
+          "options": {
+            "a": "18",
+            "b": "19",
+            "c": "20",
+            "d": "21"
+          },
+          "answer": "a",
+          "explanation": "++x: x becomes 6, value=6. x++: use 6, then x becomes 7. --x: x becomes 6, value=6. Sum = 6+6+6=18.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Output Prediction",
+          "answer_type": "single"
+        },
+        {
+          "id": 22,
+          "question": "Which SQL clause is used to filter groups?",
+          "options": {
+            "a": "WHERE",
+            "b": "HAVING",
+            "c": "GROUP BY",
+            "d": "ORDER BY"
+          },
+          "answer": "b",
+          "explanation": "WHERE filters rows before grouping. HAVING filters groups after GROUP BY.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "SQL Queries",
+          "answer_type": "single"
+        },
+        {
+          "id": 23,
+          "question": "What is the time complexity of inserting at the beginning of a linked list?",
+          "options": {
+            "a": "O(1)",
+            "b": "O(n)",
+            "c": "O(log n)",
+            "d": "O(n²)"
+          },
+          "answer": "a",
+          "explanation": "Inserting at beginning of linked list only requires updating head pointer, constant time.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Data Structures",
+          "answer_type": "single"
+        },
+        {
+          "id": 24,
+          "question": "In Java, which of the following is used to create an object?",
+          "options": {
+            "a": "new",
+            "b": "create",
+            "c": "object",
+            "d": "malloc"
+          },
+          "answer": "a",
+          "explanation": "new keyword is used to create objects in Java.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Java Basics",
+          "answer_type": "single"
+        },
+        {
+          "id": 25,
+          "question": "Which of the following is a marker interface in Java?",
+          "options": {
+            "a": "Runnable",
+            "b": "Serializable",
+            "c": "Comparable",
+            "d": "Cloneable"
+          },
+          "answer": "b",
+          "explanation": "Marker interfaces have no methods. Serializable and Cloneable are marker interfaces. Runnable has run(), Comparable has compareTo().",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Java Basics",
+          "answer_type": "single"
+        },
+        {
+          "id": 26,
+          "question": "Which of the following are true about abstract classes in Java?",
+          "options": {
+            "a": "Abstract classes can have constructors",
+            "b": "Abstract classes can have abstract methods",
+            "c": "Abstract classes can be instantiated",
+            "d": "Abstract classes can have final methods"
+          },
+          "answer": ["a", "b", "d"],
+          "explanation": "Abstract classes can have constructors (a true). They can have abstract and concrete methods (b true). They cannot be instantiated (c false). They can have final methods (d true).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "OOPS Concepts",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 27,
+          "question": "Which of the following are valid ways to handle exceptions in Java?",
+          "options": {
+            "a": "try-catch block",
+            "b": "throws keyword",
+            "c": "throw keyword",
+            "d": "finally block"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "All are exception handling mechanisms: try-catch to handle, throws to declare, throw to throw, finally to execute cleanup.",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Exception Handling",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 28,
+          "question": "Which of the following are true about interfaces in Java?",
+          "options": {
+            "a": "Interfaces can have default methods",
+            "b": "Interfaces can have static methods",
+            "c": "Interfaces can have private methods",
+            "d": "Interfaces can have instance variables"
+          },
+          "answer": ["a", "b", "c"],
+          "explanation": "Since Java 8, interfaces can have default and static methods. Since Java 9, they can have private methods. They cannot have instance variables (only static final constants).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "OOPS Concepts",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 29,
+          "question": "Which of the following are ACID properties in databases?",
+          "options": {
+            "a": "Atomicity",
+            "b": "Consistency",
+            "c": "Isolation",
+            "d": "Durability"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "ACID stands for Atomicity, Consistency, Isolation, Durability.",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Databases",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 30,
+          "question": "Which of the following are valid types of polymorphism?",
+          "options": {
+            "a": "Compile-time polymorphism",
+            "b": "Runtime polymorphism",
+            "c": "Static polymorphism",
+            "d": "Dynamic polymorphism"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "Compile-time/Static polymorphism (method overloading) and Runtime/Dynamic polymorphism (method overriding) are the two types.",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "OOPS Concepts",
+          "answer_type": "multiple"
+        }
+      ]
+    },
+    {
+      "set_name": "SET D: Quantitative, Logical & Technical Aptitude",
+      "questions": [
+        {
+          "id": 1,
+          "question": "If the price of a commodity increases by 20%, by what percentage should consumption be reduced to keep expenditure the same?",
+          "options": {
+            "a": "16.67%",
+            "b": "20%",
+            "c": "25%",
+            "d": "33.33%"
+          },
+          "answer": "a",
+          "explanation": "Expenditure = Price × Consumption. New price = 1.2P. To keep expenditure same: 1.2P × New C = P × C → New C = C/1.2 = 0.8333C. Reduction = 16.67%.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Percentage",
+          "answer_type": "single"
+        },
+        {
+          "id": 2,
+          "question": "A can do a work in 10 days, B in 15 days. They work together for 3 days, then A leaves. How many days will B take to finish the remaining work?",
+          "options": {
+            "a": "5.5 days",
+            "b": "6 days",
+            "c": "7.5 days",
+            "d": "8 days"
+          },
+          "answer": "c",
+          "explanation": "A's 1 day = 1/10, B's 1 day = 1/15. Together = 1/6 per day. Work in 3 days = 3/6 = 1/2. Remaining = 1/2. Time for B = (1/2)/(1/15) = 15/2 = 7.5 days.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Time and Work",
+          "answer_type": "single"
+        },
+        {
+          "id": 3,
+          "question": "Find the LCM of 24, 36, and 40.",
+          "options": {
+            "a": "120",
+            "b": "240",
+            "c": "360",
+            "d": "720"
+          },
+          "answer": "c",
+          "explanation": "Prime factors: 24=2³×3, 36=2²×3², 40=2³×5. LCM = 2³×3²×5 = 8×9×5 = 360.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "LCM & HCF",
+          "answer_type": "single"
+        },
+        {
+          "id": 4,
+          "question": "A man bought an item for ₹500 and sold it at a profit of 12%. What was the selling price?",
+          "options": {
+            "a": "₹540",
+            "b": "₹550",
+            "c": "₹560",
+            "d": "₹580"
+          },
+          "answer": "c",
+          "explanation": "SP = CP × (1+profit%) = 500×1.12 = ₹560.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Profit and Loss",
+          "answer_type": "single"
+        },
+        {
+          "id": 5,
+          "question": "The average of 10 numbers is 25. If each number is multiplied by 2, what will be the new average?",
+          "options": {
+            "a": "25",
+            "b": "50",
+            "c": "75",
+            "d": "100"
+          },
+          "answer": "b",
+          "explanation": "If each number is multiplied by k, average also multiplies by k. New average = 25×2 = 50.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Averages",
+          "answer_type": "single"
+        },
+        {
+          "id": 6,
+          "question": "Which of the following are divisible by 4?",
+          "options": {
+            "a": "1234",
+            "b": "1236",
+            "c": "1238",
+            "d": "1240"
+          },
+          "answer": ["b", "d"],
+          "explanation": "Divisible by 4 if last two digits divisible by 4. 34 no, 36 yes, 38 no, 40 yes.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Number System",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 7,
+          "question": "A man invests ₹10,000 at 10% compound interest for 2 years. Which statements are correct?",
+          "options": {
+            "a": "Amount after 2 years = ₹12,100",
+            "b": "Compound interest = ₹2,100",
+            "c": "Simple interest for same period = ₹2,000",
+            "d": "Difference between CI and SI = ₹100"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "Amount = 10000(1.1)² = 10000×1.21 = ₹12100. CI = ₹2100. SI = 10000×0.1×2 = ₹2000. Difference = ₹100.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Compound Interest",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 8,
+          "question": "Which of the following are prime numbers between 50 and 70?",
+          "options": {
+            "a": "53",
+            "b": "59",
+            "c": "61",
+            "d": "67"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "All are primes: 53,59,61,67. 57=3×19, so not included.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Number System",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 9,
+          "question": "A boat goes 30 km upstream and 30 km downstream in 8 hours total. If speed of stream is 5 km/h, which of the following are correct?",
+          "options": {
+            "a": "Speed of boat in still water = 10 km/h",
+            "b": "Speed of boat in still water = 12.5 km/h",
+            "c": "Time upstream = 5 hours",
+            "d": "Time downstream = 3 hours"
+          },
+          "answer": ["a"],
+          "explanation": "Let boat speed = x. Upstream time = 30/(x-5), downstream = 30/(x+5). Total = 30/(x-5)+30/(x+5)=8. Solve: 30(x+5+x-5)/(x²-25)=8 → 60x/(x²-25)=8 → 60x=8x²-200 → 8x²-60x-200=0 → 2x²-15x-50=0 → (2x+5)(x-10)=0 → x=10. Upstream time = 30/5=6h, downstream = 30/15=2h. So only a is correct.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Time, Speed and Distance",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 10,
+          "question": "If a:b = 4:5 and b:c = 6:7, then which of the following are correct?",
+          "options": {
+            "a": "a:b:c = 24:30:35",
+            "b": "a:c = 24:35",
+            "c": "a:b:c = 20:25:35",
+            "d": "a:c = 4:7"
+          },
+          "answer": ["a", "b"],
+          "explanation": "a:b = 4:5 = 24:30, b:c = 6:7 = 30:35. So a:b:c = 24:30:35, a:c = 24:35.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Ratio and Proportion",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 11,
+          "question": "Find the next number: 5, 9, 17, 33, 65, ?",
+          "options": {
+            "a": "127",
+            "b": "128",
+            "c": "129",
+            "d": "130"
+          },
+          "answer": "c",
+          "explanation": "Pattern: ×2 -1: 5×2-1=9, 9×2-1=17, 17×2-1=33, 33×2-1=65, 65×2-1=129.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Number Series",
+          "answer_type": "single"
+        },
+        {
+          "id": 12,
+          "question": "If 'TABLE' is coded as 'UBCMF', how is 'CHAIR' coded?",
+          "options": {
+            "a": "DIBJS",
+            "b": "DJBJS",
+            "c": "DIBJT",
+            "d": "DIBKS"
+          },
+          "answer": "a",
+          "explanation": "Each letter replaced by next: T→U, A→B, B→C, L→M, E→F. So CHAIR: C→D, H→I, A→B, I→J, R→S = DIBJS.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Coding-Decoding",
+          "answer_type": "single"
+        },
+        {
+          "id": 13,
+          "question": "A man walks 10 km east, then turns left and walks 6 km, then turns left and walks 10 km. How far is he from starting point?",
+          "options": {
+            "a": "4 km",
+            "b": "6 km",
+            "c": "8 km",
+            "d": "10 km"
+          },
+          "answer": "b",
+          "explanation": "Starting O: 10 km east to A, then 6 km north to B, then 10 km west to C. C is 6 km north of O. Distance = 6 km.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Direction Sense",
+          "answer_type": "single"
+        },
+        {
+          "id": 14,
+          "question": "Find the odd one out: Apple, Mango, Potato, Banana",
+          "options": {
+            "a": "Apple",
+            "b": "Mango",
+            "c": "Potato",
+            "d": "Banana"
+          },
+          "answer": "c",
+          "explanation": "Apple, Mango, Banana are fruits. Potato is a vegetable.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Odd One Out",
+          "answer_type": "single"
+        },
+        {
+          "id": 15,
+          "question": "In a code, '1234' means 'go and come', '5678' means 'come back soon', '1357' means 'go back home'. What does '5' stand for?",
+          "options": {
+            "a": "go",
+            "b": "and",
+            "c": "back",
+            "d": "soon"
+          },
+          "answer": "c",
+          "explanation": "From 5678 and 1357, common digit 5 and 7. Common word 'back' corresponds to common digit 5 or 7. In 1234, 'back' not present, so 5 or 7 is 'back'. From pattern, 5 is 'back'.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Coding-Decoding",
+          "answer_type": "single"
+        },
+        {
+          "id": 16,
+          "question": "Which conclusions follow from: 'All squares are rectangles. No rectangle is a triangle.'",
+          "options": {
+            "a": "No square is a triangle",
+            "b": "Some rectangles are squares",
+            "c": "All rectangles are squares",
+            "d": "No triangle is a square"
+          },
+          "answer": ["a", "b", "d"],
+          "explanation": "All squares are rectangles, so squares are subset of rectangles. No rectangle is triangle, so no square is triangle (a true). Since all squares are rectangles, some rectangles are squares (b true). No rectangle is triangle implies no triangle is rectangle, and since all squares are rectangles, no triangle is square (d true). c false.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Syllogism",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 17,
+          "question": "In a code, '123' means 'apple is red', '456' means 'banana is yellow', '789' means 'mango is sweet'. Which of the following can be inferred?",
+          "options": {
+            "a": "'is' corresponds to digit 2",
+            "b": "'is' corresponds to digit 5",
+            "c": "'is' corresponds to digit 8",
+            "d": "'is' corresponds to digit 1"
+          },
+          "answer": [],
+          "explanation": "'is' appears in all sentences, but the codes 123,456,789 have no common digit. So 'is' might be coded differently in each. No definite inference possible.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Coding-Decoding",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 18,
+          "question": "Five persons P, Q, R, S, T are standing in a queue. P is ahead of Q. R is behind S but ahead of T. T is behind Q. Which statements are definitely true?",
+          "options": {
+            "a": "S is ahead of P",
+            "b": "P is ahead of S",
+            "c": "Q is ahead of R",
+            "d": "R is behind P"
+          },
+          "answer": [],
+          "explanation": "From conditions, we have multiple possible orders. None of the given relationships are definitely true in all valid arrangements.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Ordering",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 19,
+          "question": "Which of the following are divisible by 9?",
+          "options": {
+            "a": "123456",
+            "b": "234567",
+            "c": "345678",
+            "d": "456789"
+          },
+          "answer": ["b"],
+          "explanation": "Sum digits: a=21 not divisible by 9. b=27 divisible. c=33 not. d=39 not.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Divisibility",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 20,
+          "question": "If 'P + Q' means P is mother of Q, 'P - Q' means P is father of Q, 'P × Q' means P is brother of Q, 'P ÷ Q' means P is sister of Q, then which mean P is maternal aunt of Q?",
+          "options": {
+            "a": "P × R + Q",
+            "b": "P ÷ R + Q",
+            "c": "P + R × Q",
+            "d": "P - R × Q"
+          },
+          "answer": ["b"],
+          "explanation": "Maternal aunt means mother's sister. P ÷ R means P sister of R. R + Q means R mother of Q. So P is sister of Q's mother → maternal aunt. a gives uncle, c gives mother, d gives father.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Blood Relations",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 21,
+          "question": "What will be the output?\n\npublic class Test {\n    public static void main(String[] args) {\n        String s = \"Hello\";\n        s.concat(\" World\");\n        System.out.println(s);\n    }\n}",
+          "options": {
+            "a": "Hello",
+            "b": "Hello World",
+            "c": "null",
+            "d": "Compilation error"
+          },
+          "answer": "a",
+          "explanation": "Strings are immutable. concat() returns new string but original s unchanged. Need to assign: s = s.concat(\" World\") to change.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Output Prediction",
+          "answer_type": "single"
+        },
+        {
+          "id": 22,
+          "question": "Which SQL statement is used to add new rows to a table?",
+          "options": {
+            "a": "ADD",
+            "b": "INSERT",
+            "c": "UPDATE",
+            "d": "CREATE"
+          },
+          "answer": "b",
+          "explanation": "INSERT adds new rows. UPDATE modifies existing rows.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "SQL Queries",
+          "answer_type": "single"
+        },
+        {
+          "id": 23,
+          "question": "What is the time complexity of searching in a balanced binary search tree?",
+          "options": {
+            "a": "O(1)",
+            "b": "O(log n)",
+            "c": "O(n)",
+            "d": "O(n log n)"
+          },
+          "answer": "b",
+          "explanation": "Balanced BST like AVL tree has O(log n) search time.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Data Structures",
+          "answer_type": "single"
+        },
+        {
+          "id": 24,
+          "question": "In Java, which package contains the ArrayList class?",
+          "options": {
+            "a": "java.lang",
+            "b": "java.util",
+            "c": "java.io",
+            "d": "java.collection"
+          },
+          "answer": "b",
+          "explanation": "ArrayList is in java.util package.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Collections",
+          "answer_type": "single"
+        },
+        {
+          "id": 25,
+          "question": "Which of the following is a checked exception in Java?",
+          "options": {
+            "a": "NullPointerException",
+            "b": "ArithmeticException",
+            "c": "IOException",
+            "d": "ArrayIndexOutOfBoundsException"
+          },
+          "answer": "c",
+          "explanation": "Checked exceptions are checked at compile time. IOException is checked. Others are runtime (unchecked).",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Exception Handling",
+          "answer_type": "single"
+        },
+        {
+          "id": 26,
+          "question": "Which of the following are true about final keyword in Java?",
+          "options": {
+            "a": "final class cannot be inherited",
+            "b": "final method cannot be overridden",
+            "c": "final variable cannot be reassigned",
+            "d": "final variable must be initialized"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "All are true. final class no subclass, final method no override, final variable constant, must be initialized at declaration or in constructor.",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Java Basics",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 27,
+          "question": "Which of the following are valid types of inheritance in Java?",
+          "options": {
+            "a": "Single inheritance",
+            "b": "Multiple inheritance",
+            "c": "Multilevel inheritance",
+            "d": "Hierarchical inheritance"
+          },
+          "answer": ["a", "c", "d"],
+          "explanation": "Java supports single (class extends one class), multilevel (A→B→C), and hierarchical (one class extended by multiple). Multiple inheritance not supported with classes (only with interfaces).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "OOPS Concepts",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 28,
+          "question": "Which of the following are true about HashMap in Java?",
+          "options": {
+            "a": "It allows null keys",
+            "b": "It allows null values",
+            "c": "It is thread-safe",
+            "d": "It maintains insertion order"
+          },
+          "answer": ["a", "b"],
+          "explanation": "HashMap allows one null key and multiple null values. It is not thread-safe (Hashtable is). It does not maintain order (LinkedHashMap does).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Collections",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 29,
+          "question": "Which of the following are valid SQL aggregate functions?",
+          "options": {
+            "a": "SUM",
+            "b": "AVG",
+            "c": "COUNT",
+            "d": "MAX"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "All are aggregate functions. Also MIN.",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "SQL Queries",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 30,
+          "question": "Which of the following are true about the 'this' keyword in Java?",
+          "options": {
+            "a": "It refers to current class object",
+            "b": "It can be used to call another constructor",
+            "c": "It can be used in static context",
+            "d": "It can be used to return current object"
+          },
+          "answer": ["a", "b", "d"],
+          "explanation": "'this' refers to current object (a true). Can call another constructor with this() (b true). Cannot be used in static context (c false). Can return this from method (d true).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Java Basics",
+          "answer_type": "multiple"
+        }
+      ]
+    },
+    {
+      "set_name": "SET E: Quantitative, Logical & Technical Aptitude",
+      "questions": [
+        {
+          "id": 1,
+          "question": "If 60% of a number is 120, find the number.",
+          "options": {
+            "a": "180",
+            "b": "200",
+            "c": "220",
+            "d": "240"
+          },
+          "answer": "b",
+          "explanation": "60% of x = 120 → 0.6x = 120 → x = 120/0.6 = 200.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Percentage",
+          "answer_type": "single"
+        },
+        {
+          "id": 2,
+          "question": "A train 250 m long passes a bridge 350 m long in 30 seconds. Find the speed of the train.",
+          "options": {
+            "a": "60 km/h",
+            "b": "72 km/h",
+            "c": "80 km/h",
+            "d": "90 km/h"
+          },
+          "answer": "b",
+          "explanation": "Total distance = 250+350 = 600 m. Speed = 600/30 = 20 m/s = 20×18/5 = 72 km/h.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Time, Speed and Distance",
+          "answer_type": "single"
+        },
+        {
+          "id": 3,
+          "question": "Find the median of the numbers: 12, 15, 18, 20, 22, 25, 28",
+          "options": {
+            "a": "18",
+            "b": "20",
+            "c": "22",
+            "d": "25"
+          },
+          "answer": "b",
+          "explanation": "Already sorted. 7 numbers, median is 4th number = 20.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Statistics",
+          "answer_type": "single"
+        },
+        {
+          "id": 4,
+          "question": "A shopkeeper sold an item at a profit of 20%. If the cost price was ₹250, what was the selling price?",
+          "options": {
+            "a": "₹270",
+            "b": "₹280",
+            "c": "₹290",
+            "d": "₹300"
+          },
+          "answer": "d",
+          "explanation": "SP = 250×1.2 = ₹300.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Profit and Loss",
+          "answer_type": "single"
+        },
+        {
+          "id": 5,
+          "question": "The ratio of two numbers is 3:4 and their sum is 84. Find the larger number.",
+          "options": {
+            "a": "36",
+            "b": "42",
+            "c": "48",
+            "d": "56"
+          },
+          "answer": "c",
+          "explanation": "3x+4x=84 → 7x=84 → x=12. Larger = 4×12=48.",
+          "difficulty": "Medium",
+          "category": "Quantitative Aptitude",
+          "topic": "Ratio and Proportion",
+          "answer_type": "single"
+        },
+        {
+          "id": 6,
+          "question": "Which of the following are perfect squares between 100 and 200?",
+          "options": {
+            "a": "121",
+            "b": "144",
+            "c": "169",
+            "d": "196"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "11²=121, 12²=144, 13²=169, 14²=196. All are between 100 and 200.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Number System",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 7,
+          "question": "A number when divided by 7 leaves remainder 3. Which of the following numbers when divided by 7 will leave remainder 2?",
+          "options": {
+            "a": "The number + 6",
+            "b": "The number + 5",
+            "c": "The number × 2",
+            "d": "The number × 3"
+          },
+          "answer": ["a", "d"],
+          "explanation": "Let number = 7k+3. a: 7k+3+6=7k+9=7(k+1)+2 ✓. b: 7k+3+5=7k+8=7(k+1)+1 ✗. c: 2(7k+3)=14k+6=7(2k)+6 remainder 6 ✗. d: 3(7k+3)=21k+9=7(3k+1)+2 ✓.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Number System",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 8,
+          "question": "If the simple interest on a sum for 2 years at 8% is ₹800, which of the following are true?",
+          "options": {
+            "a": "Principal = ₹5000",
+            "b": "Principal = ₹4000",
+            "c": "Compound interest for same period at same rate = ₹832",
+            "d": "Compound interest for same period at same rate = ₹864"
+          },
+          "answer": ["a", "c"],
+          "explanation": "SI = P×R×T/100 → 800 = P×8×2/100 → P = 800×100/16 = ₹5000. CI = P[(1+r/100)^n -1] = 5000[(1.08)²-1] = 5000×0.1664 = ₹832.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Simple & Compound Interest",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 9,
+          "question": "Which of the following fractions are greater than 3/5?",
+          "options": {
+            "a": "4/7",
+            "b": "5/8",
+            "c": "6/11",
+            "d": "7/12"
+          },
+          "answer": ["b"],
+          "explanation": "3/5 = 0.6. 4/7≈0.571, 5/8=0.625, 6/11≈0.545, 7/12≈0.583. Only 5/8 > 0.6.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Fractions",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 10,
+          "question": "A shopkeeper gives two successive discounts of 10% and 20%. Which of the following are correct?",
+          "options": {
+            "a": "Equivalent single discount = 28%",
+            "b": "Equivalent single discount = 30%",
+            "c": "If marked price is ₹1000, selling price = ₹720",
+            "d": "If marked price is ₹1000, selling price = ₹700"
+          },
+          "answer": ["a", "c"],
+          "explanation": "Successive discounts: total = 10+20 - (10×20)/100 = 30-2 = 28%. SP = 1000 × 0.9 × 0.8 = 1000×0.72 = ₹720.",
+          "difficulty": "Hard",
+          "category": "Quantitative Aptitude",
+          "topic": "Profit and Loss",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 11,
+          "question": "Find the next number: 2, 3, 5, 7, 11, 13, ?",
+          "options": {
+            "a": "15",
+            "b": "17",
+            "c": "19",
+            "d": "23"
+          },
+          "answer": "b",
+          "explanation": "Prime numbers: 2,3,5,7,11,13, next prime is 17.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Number Series",
+          "answer_type": "single"
+        },
+        {
+          "id": 12,
+          "question": "If 'COMPUTER' is coded as 'DPNQVSFS', how is 'KEYBOARD' coded?",
+          "options": {
+            "a": "LFZCPBSE",
+            "b": "LFZCPBSE",
+            "c": "LFZCPCSE",
+            "d": "LFZCPBSF"
+          },
+          "answer": "a",
+          "explanation": "Each letter replaced by next: C→D, O→P, M→N, P→Q, U→V, T→U, E→F, R→S. So KEYBOARD: K→L, E→F, Y→Z, B→C, O→P, A→B, R→S, D→E = LFZCPBSE.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Coding-Decoding",
+          "answer_type": "single"
+        },
+        {
+          "id": 13,
+          "question": "A is the mother of B. C is the son of B. D is the brother of C. How is A related to D?",
+          "options": {
+            "a": "Mother",
+            "b": "Grandmother",
+            "c": "Aunt",
+            "d": "Sister"
+          },
+          "answer": "b",
+          "explanation": "A mother of B, B mother/father of C, C brother of D → D is also child of B. So A is grandmother of D.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Blood Relations",
+          "answer_type": "single"
+        },
+        {
+          "id": 14,
+          "question": "If East becomes South, then what will North become?",
+          "options": {
+            "a": "East",
+            "b": "West",
+            "c": "North",
+            "d": "South"
+          },
+          "answer": "a",
+          "explanation": "Rotation of 90° clockwise: East→South. So North→East by same rotation.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Direction Sense",
+          "answer_type": "single"
+        },
+        {
+          "id": 15,
+          "question": "Find the odd one out: January, March, May, July, August, October, December",
+          "options": {
+            "a": "August",
+            "b": "October",
+            "c": "December",
+            "d": "None"
+          },
+          "answer": "d",
+          "explanation": "All are months with 31 days. So no odd one.",
+          "difficulty": "Medium",
+          "category": "Logical Reasoning",
+          "topic": "Odd One Out",
+          "answer_type": "single"
+        },
+        {
+          "id": 16,
+          "question": "Which of the following are prime numbers?",
+          "options": {
+            "a": "101",
+            "b": "103",
+            "c": "107",
+            "d": "109"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "All are primes.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Number System",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 17,
+          "question": "In a code, '123' means 'apple is red', '456' means 'banana is yellow', '789' means 'mango is sweet'. Which of the following can be inferred?",
+          "options": {
+            "a": "'is' corresponds to digit 2",
+            "b": "'is' corresponds to digit 5",
+            "c": "'is' corresponds to digit 8",
+            "d": "'is' corresponds to digit 1"
+          },
+          "answer": [],
+          "explanation": "'is' appears in all sentences, but the codes 123,456,789 have no common digit. So 'is' might be coded differently in each. No definite inference possible.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Coding-Decoding",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 18,
+          "question": "Five persons P, Q, R, S, T are standing in a queue. P is ahead of Q. R is behind S but ahead of T. T is behind Q. Which statements are definitely true?",
+          "options": {
+            "a": "S is ahead of P",
+            "b": "P is ahead of S",
+            "c": "Q is ahead of R",
+            "d": "R is behind P"
+          },
+          "answer": [],
+          "explanation": "From conditions, we have multiple possible orders. None of the given relationships are definitely true in all valid arrangements.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Ordering",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 19,
+          "question": "Which of the following are divisible by 9?",
+          "options": {
+            "a": "123456",
+            "b": "234567",
+            "c": "345678",
+            "d": "456789"
+          },
+          "answer": ["b"],
+          "explanation": "Sum digits: a=21 not divisible by 9. b=27 divisible. c=33 not. d=39 not.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Divisibility",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 20,
+          "question": "If 'P + Q' means P is mother of Q, 'P - Q' means P is father of Q, 'P × Q' means P is brother of Q, 'P ÷ Q' means P is sister of Q, then which mean P is maternal aunt of Q?",
+          "options": {
+            "a": "P × R + Q",
+            "b": "P ÷ R + Q",
+            "c": "P + R × Q",
+            "d": "P - R × Q"
+          },
+          "answer": ["b"],
+          "explanation": "Maternal aunt means mother's sister. P ÷ R means P sister of R. R + Q means R mother of Q. So P is sister of Q's mother → maternal aunt. a gives uncle, c gives mother, d gives father.",
+          "difficulty": "Hard",
+          "category": "Logical Reasoning",
+          "topic": "Blood Relations",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 21,
+          "question": "What will be the output?\n\npublic class Test {\n    public static void main(String[] args) {\n        int[] arr = {1, 2, 3, 4, 5};\n        System.out.println(arr[5]);\n    }\n}",
+          "options": {
+            "a": "5",
+            "b": "0",
+            "c": "null",
+            "d": "ArrayIndexOutOfBoundsException"
+          },
+          "answer": "d",
+          "explanation": "Array indices go from 0 to length-1. arr[5] tries to access index 5 which doesn't exist.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Output Prediction",
+          "answer_type": "single"
+        },
+        {
+          "id": 22,
+          "question": "Which SQL statement is used to remove a table from database?",
+          "options": {
+            "a": "DELETE TABLE",
+            "b": "REMOVE TABLE",
+            "c": "DROP TABLE",
+            "d": "TRUNCATE TABLE"
+          },
+          "answer": "c",
+          "explanation": "DROP TABLE removes the table structure and data. TRUNCATE removes only data.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "SQL Queries",
+          "answer_type": "single"
+        },
+        {
+          "id": 23,
+          "question": "What is the time complexity of bubble sort in worst case?",
+          "options": {
+            "a": "O(n)",
+            "b": "O(log n)",
+            "c": "O(n log n)",
+            "d": "O(n²)"
+          },
+          "answer": "d",
+          "explanation": "Bubble sort has O(n²) time complexity in worst and average cases.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Time Complexity",
+          "answer_type": "single"
+        },
+        {
+          "id": 24,
+          "question": "In Java, which keyword is used to inherit a class?",
+          "options": {
+            "a": "implements",
+            "b": "extends",
+            "c": "inherits",
+            "d": "uses"
+          },
+          "answer": "b",
+          "explanation": "extends is used for class inheritance. implements is for interfaces.",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "OOPS Concepts",
+          "answer_type": "single"
+        },
+        {
+          "id": 25,
+          "question": "Which of the following is a checked exception in Java?",
+          "options": {
+            "a": "NullPointerException",
+            "b": "ArithmeticException",
+            "c": "IOException",
+            "d": "ArrayIndexOutOfBoundsException"
+          },
+          "answer": "c",
+          "explanation": "Checked exceptions are checked at compile time. IOException is checked. Others are runtime (unchecked).",
+          "difficulty": "Medium",
+          "category": "Technical Aptitude",
+          "topic": "Exception Handling",
+          "answer_type": "single"
+        },
+        {
+          "id": 26,
+          "question": "Which of the following are true about final keyword in Java?",
+          "options": {
+            "a": "final class cannot be inherited",
+            "b": "final method cannot be overridden",
+            "c": "final variable cannot be reassigned",
+            "d": "final variable must be initialized"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "All are true. final class no subclass, final method no override, final variable constant, must be initialized at declaration or in constructor.",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Java Basics",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 27,
+          "question": "Which of the following are valid types of inheritance in Java?",
+          "options": {
+            "a": "Single inheritance",
+            "b": "Multiple inheritance",
+            "c": "Multilevel inheritance",
+            "d": "Hierarchical inheritance"
+          },
+          "answer": ["a", "c", "d"],
+          "explanation": "Java supports single (class extends one class), multilevel (A→B→C), and hierarchical (one class extended by multiple). Multiple inheritance not supported with classes (only with interfaces).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "OOPS Concepts",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 28,
+          "question": "Which of the following are true about HashMap in Java?",
+          "options": {
+            "a": "It allows null keys",
+            "b": "It allows null values",
+            "c": "It is thread-safe",
+            "d": "It maintains insertion order"
+          },
+          "answer": ["a", "b"],
+          "explanation": "HashMap allows one null key and multiple null values. It is not thread-safe (Hashtable is). It does not maintain order (LinkedHashMap does).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Collections",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 29,
+          "question": "Which of the following are valid SQL aggregate functions?",
+          "options": {
+            "a": "SUM",
+            "b": "AVG",
+            "c": "COUNT",
+            "d": "MAX"
+          },
+          "answer": ["a", "b", "c", "d"],
+          "explanation": "All are aggregate functions. Also MIN.",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "SQL Queries",
+          "answer_type": "multiple"
+        },
+        {
+          "id": 30,
+          "question": "Which of the following are true about the 'this' keyword in Java?",
+          "options": {
+            "a": "It refers to current class object",
+            "b": "It can be used to call another constructor",
+            "c": "It can be used in static context",
+            "d": "It can be used to return current object"
+          },
+          "answer": ["a", "b", "d"],
+          "explanation": "'this' refers to current object (a true). Can call another constructor with this() (b true). Cannot be used in static context (c false). Can return this from method (d true).",
+          "difficulty": "Hard",
+          "category": "Technical Aptitude",
+          "topic": "Java Basics",
+          "answer_type": "multiple"
+        }
+      ]
+    }
+  ]
+}
