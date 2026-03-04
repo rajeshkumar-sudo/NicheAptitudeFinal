@@ -53,7 +53,7 @@ export const ResultView: React.FC<ResultViewProps> = ({ user, score, total, ques
             Thanks for Submitting
           </h2>
           <p className="text-white/40 text-sm font-medium mb-10 tracking-tight max-w-md">
-            Assessment Completed. Your evaluation session has been saved securely in our system.
+            Your evaluation session has been completed and saved securely in our system. Our technical team will evaluate and let you know.
           </p>
 
           {/* Stats Grid */}
@@ -78,10 +78,6 @@ export const ResultView: React.FC<ResultViewProps> = ({ user, score, total, ques
 
           {/* Visual Chart */}
           <div className="w-full h-64 bg-white/5 p-6 rounded-2xl border border-white/10 mb-10">
-            <div className="flex items-center gap-2 mb-6">
-              <BarChartIcon className="w-4 h-4 text-white/40" />
-              <span className="text-[10px] font-bold tracking-[0.2em] text-white/60 uppercase">Performance Analytics</span>
-            </div>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={chartData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#ffffff10" vertical={false} />

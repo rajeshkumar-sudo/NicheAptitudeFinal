@@ -23,6 +23,28 @@ import questionsRaw from '../questions.json';
 
 const questionsData = questionsRaw as unknown as QuestionsData;
 
+const TimerUnit = ({ value, label, isWarning }: { value: number, label: string, isWarning?: boolean }) => (
+  <div className="flex flex-col items-center gap-1">
+    <div className={cn(
+      "w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-lg text-lg md:text-xl font-bold shadow-md transition-all duration-300",
+      isWarning ? "bg-red-500 text-white animate-pulse" : "bg-white text-black"
+    )}>
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={value}
+          initial={{ y: 5, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          exit={{ y: -5, opacity: 0 }}
+          transition={{ duration: 0.2 }}
+        >
+          {String(value).padStart(2, '0')}
+        </motion.span>
+      </AnimatePresence>
+    </div>
+    <span className="text-[8px] font-bold text-zinc-500 uppercase tracking-widest">{label}</span>
+  </div>
+);
+
 interface AptitudeTestProps {
   user: UserData;
   onComplete: (score: number, total: number, questions: Question[], answers: Record<number, string[]>, timeTaken: number, stats: { correct: number, wrong: number, skipped: number, partial: number }) => void;
@@ -945,6 +967,11 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
   // ============================================
   // RENDER COMPONENT
   // ============================================
+  const totalMins = Math.floor(timeLeft / 60);
+  const totalSecs = timeLeft % 60;
+  const qMins = Math.floor(questionTimeLeft / 60);
+  const qSecs = questionTimeLeft % 60;
+
   if (!currentQuestion) {
     return (
       <div className="w-full max-w-7xl mx-auto px-4 py-4 min-h-screen bg-gray-50 flex items-center justify-center">
@@ -1103,25 +1130,24 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
           <p className="text-gray-500 font-medium mt-1">Technical Aptitude Evaluation</p>
         </motion.div>
 
-        <div className="flex flex-wrap items-center gap-4">
+        <div className="flex flex-wrap items-center gap-6">
           {/* Total Timer */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             whileHover={{ y: -2, transition: { duration: 0.2 } }}
-            className="relative flex flex-col gap-1 min-w-[160px] bg-zinc-900 p-4 rounded-xl shadow-xl border border-white/10 overflow-hidden group"
+            className="relative flex flex-col gap-2 bg-black p-4 rounded-xl shadow-2xl border border-white/20 overflow-hidden group"
           >
             {/* Glittering Shimmer Line */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
             </div>
             
-            <span className="text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase relative z-10">TOTAL TIME</span>
+            <span className="text-[10px] font-bold tracking-[0.2em] text-white/90 uppercase relative z-10">TOTAL TIME</span>
             <div className="flex items-center gap-3 relative z-10">
-              <Clock className={cn("w-5 h-5", timeLeft < 300 ? "text-red-400 animate-pulse" : "text-zinc-400")} />
-              <span className={cn("font-mono text-2xl font-bold", timeLeft < 300 ? "text-red-400" : "text-white")}>
-                {formatTime(timeLeft)}
-              </span>
+              <TimerUnit value={totalMins} label="Minutes" isWarning={timeLeft < 300} />
+              <div className="text-white/20 font-bold text-xl mt-[-18px]">:</div>
+              <TimerUnit value={totalSecs} label="Seconds" isWarning={timeLeft < 300} />
             </div>
           </motion.div>
 
@@ -1131,19 +1157,18 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.1 }}
             whileHover={{ y: -2, transition: { duration: 0.2 } }}
-            className="relative flex flex-col gap-1 min-w-[160px] bg-zinc-900 p-4 rounded-xl shadow-xl border border-white/10 overflow-hidden group"
+            className="relative flex flex-col gap-2 bg-black p-4 rounded-xl shadow-2xl border border-white/20 overflow-hidden group"
           >
             {/* Glittering Shimmer Line */}
             <div className="absolute inset-0 overflow-hidden pointer-events-none">
               <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
             </div>
 
-            <span className="text-[10px] font-bold tracking-[0.2em] text-zinc-500 uppercase relative z-10">QUESTION TIME</span>
+            <span className="text-[10px] font-bold tracking-[0.2em] text-white/90 uppercase relative z-10">QUESTION TIME</span>
             <div className="flex items-center gap-3 relative z-10">
-              <Clock className={cn("w-5 h-5", questionTimeLeft < 10 ? "text-red-400 animate-pulse" : "text-zinc-400")} />
-              <span className={cn("font-mono text-2xl font-bold", questionTimeLeft < 10 ? "text-red-400" : "text-white")}>
-                {formatTime(questionTimeLeft)}
-              </span>
+              <TimerUnit value={qMins} label="Minutes" isWarning={questionTimeLeft < 10} />
+              <div className="text-white/20 font-bold text-xl mt-[-18px]">:</div>
+              <TimerUnit value={qSecs} label="Seconds" isWarning={questionTimeLeft < 10} />
             </div>
           </motion.div>
         </div>
@@ -1154,19 +1179,18 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
         <motion.div 
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="relative flex flex-col gap-1 bg-zinc-900 p-4 rounded-2xl shadow-xl border border-white/10 overflow-hidden"
+          className="relative flex flex-col gap-2 bg-black p-4 rounded-2xl shadow-2xl border border-white/20 overflow-hidden"
         >
           {/* Glittering Shimmer Line */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
           </div>
 
-          <span className="text-[9px] font-bold tracking-[0.2em] text-zinc-500 uppercase relative z-10">TOTAL TIME</span>
-          <div className="flex items-center gap-2 relative z-10">
-            <Clock className={cn("w-4 h-4", timeLeft < 300 ? "text-red-400 animate-pulse" : "text-zinc-400")} />
-            <span className={cn("font-mono text-2xl font-bold", timeLeft < 300 ? "text-red-400" : "text-white")}>
-              {formatTime(timeLeft)}
-            </span>
+          <span className="text-[9px] font-bold tracking-[0.2em] text-white/90 uppercase relative z-10">TOTAL TIME</span>
+          <div className="flex items-center justify-center gap-2 relative z-10">
+            <TimerUnit value={totalMins} label="Min" isWarning={timeLeft < 300} />
+            <div className="text-white/20 font-bold text-lg mt-[-14px]">:</div>
+            <TimerUnit value={totalSecs} label="Sec" isWarning={timeLeft < 300} />
           </div>
         </motion.div>
 
@@ -1174,19 +1198,18 @@ export const AptitudeTest: React.FC<AptitudeTestProps> = ({ user, onComplete, on
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="relative flex flex-col gap-1 bg-zinc-900 p-4 rounded-2xl shadow-xl border border-white/10 overflow-hidden"
+          className="relative flex flex-col gap-2 bg-black p-4 rounded-2xl shadow-2xl border border-white/20 overflow-hidden"
         >
           {/* Glittering Shimmer Line */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shimmer" />
           </div>
 
-          <span className="text-[9px] font-bold tracking-[0.2em] text-zinc-500 uppercase relative z-10">QUESTION TIME</span>
-          <div className="flex items-center gap-2 relative z-10">
-            <Clock className={cn("w-4 h-4", questionTimeLeft < 10 ? "text-red-400 animate-pulse" : "text-zinc-400")} />
-            <span className={cn("font-mono text-2xl font-bold", questionTimeLeft < 10 ? "text-red-400" : "text-white")}>
-              {formatTime(questionTimeLeft)}
-            </span>
+          <span className="text-[9px] font-bold tracking-[0.2em] text-white/90 uppercase relative z-10">QUESTION TIME</span>
+          <div className="flex items-center justify-center gap-2 relative z-10">
+            <TimerUnit value={qMins} label="Min" isWarning={questionTimeLeft < 10} />
+            <div className="text-white/20 font-bold text-lg mt-[-14px]">:</div>
+            <TimerUnit value={qSecs} label="Sec" isWarning={questionTimeLeft < 10} />
           </div>
         </motion.div>
       </div>
